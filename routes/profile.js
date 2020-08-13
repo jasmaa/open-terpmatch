@@ -14,7 +14,9 @@ router.route('/createAccount')
         }
     })
     .post(authorizeUser, async (req, res) => {
+        
         if (!req.user.hasAccount) {
+
             const { name, tagline } = req.body;
 
             user = new User({
@@ -26,7 +28,7 @@ router.route('/createAccount')
             req.user.hasAccount = true;
         }
 
-        res.redirect('/secret');
+        res.redirect('/dashboard');
     });
 
 module.exports = router;

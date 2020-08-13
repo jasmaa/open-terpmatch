@@ -5,6 +5,7 @@ const UMDCASStrategy = require('passport-umd-cas').Strategy;
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
 const { authorizeUser, authorizeAccount } = require('./middleware');
+const { User } = require('./config/db');
 
 require('dotenv').config();
 
@@ -34,16 +35,20 @@ app.set('view engine', 'pug');
 // Routes
 app.use('/', authRoutes);
 app.use('/', profileRoutes);
+
 app.get('/', (req, res) => {
-    if (req.user) {
-        res.render('home', { title: 'Home', user: req.user });
+    if (req.user && req.user.hasAccount) {
+        res.redirect('/dashboard');
     } else {
         res.render('home', { title: 'Home' });
     }
 });
 
-app.get('/secret', authorizeUser, authorizeAccount, (req, res) => {
-    res.send('congrats you have an account')
+app.get('/dashboard', authorizeUser, authorizeAccount, async (req, res) => {
+
+    const user = await User.findOne({ uid: req.user.uid });
+
+    res.render('dashboard', { title: 'Dashboard', user: user });
 });
 
 console.log(`Started server at ${PORT}...`)
