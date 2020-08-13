@@ -17,8 +17,6 @@ router.route('/createAccount')
         if (!req.user.hasAccount) {
             const { name, tagline } = req.body;
 
-            console.log(req.body);
-
             user = new User({
                 uid: req.user.uid,
                 name: name,
