@@ -10,6 +10,7 @@
     "express-session": "^1.17.1",
     "mongoose": "^5.9.28",
     "passport": "^0.4.1",
-    "passport-umd-cas": "^1.1.6"
+    "passport-umd-cas": "^1.1.6",
+    "pug": "^3.0.0"
   }
 }

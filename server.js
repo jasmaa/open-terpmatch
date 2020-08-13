@@ -29,15 +29,16 @@ app.use(require('express-session')({ secret: SECRET_KEY, resave: true, saveUnini
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.set('view engine', 'pug');
 
 // Routes
 app.use('/', authRoutes);
 app.use('/', profileRoutes);
 app.get('/', (req, res) => {
     if (req.user) {
-        res.send(`Welcome ${req.user.uid}`);
+        res.render('home', { title: 'Home', user: req.user });
     } else {
-        res.send('Please login');
+        res.render('home', { title: 'Home' });
     }
 });
 

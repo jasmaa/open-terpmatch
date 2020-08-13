@@ -8,9 +8,14 @@ const { User } = require('../config/db');
 router.get('/umd/login', passport.authenticate('umd-cas'));
 
 router.get('/umd/return', passport.authenticate('umd-cas'), async (req, res) => {
-    let user = await User.findOne({ uid: req.user.uid });
+    const user = await User.findOne({ uid: req.user.uid });
     req.user.hasAccount = !!user;
-    res.redirect('/');
+
+    if (!req.user.hasAccount) {
+        res.redirect('/createAccount');
+    } else {
+        res.redirect('/');
+    }
 });
 
 router.get('/logout', (req, res) => {

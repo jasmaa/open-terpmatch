@@ -1,0 +1,9 @@
+html
+  head
+    title #{title} - Terpmatch
+  body
+    if user
+      p Welcome back, #[strong #{user.uid}]!
+      a(href='/logout') Logout
+    else
+      a(href='/umd/login') Login with CAS

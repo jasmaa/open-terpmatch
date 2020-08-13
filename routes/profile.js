@@ -10,12 +10,15 @@ router.route('/createAccount')
         if (req.user.hasAccount) {
             res.redirect('/');
         } else {
-            res.sendStatus(200);
+            res.render('createAccount', { title: 'Create Account' })
         }
     })
     .post(authorizeUser, async (req, res) => {
         if (!req.user.hasAccount) {
-            const { user } = req.body;
+            const { name, tagline } = req.body;
+
+            console.log(req.body);
+
             user = new User({
                 uid: req.user.uid,
                 name: name,

@@ -1,0 +1,10 @@
+html
+  head
+    title #{title} - Terpmatch
+  body
+    form(action='/createAccount', method='POST')
+      | Name:
+      input(type='text', name='name', value='')
+      | Tagline
+      input(type='text', name='tagline', value='')
+      input(type='submit', value='Submit')
