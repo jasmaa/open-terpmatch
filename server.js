@@ -1,10 +1,10 @@
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const UMDCASStrategy = require('passport-umd-cas').Strategy;
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
+const { authorizeUser, authorizeAccount } = require('./middleware');
 
 require('dotenv').config();
 
@@ -25,15 +25,25 @@ passport.deserializeUser((user, done) => {
 const app = express();
 
 // Middleware
-//app.use(require('express-session')({ secret: SECRET_KEY, resave: true, saveUninitialized: true }));
-//app.use(passport.initialize());
-//app.use(passport.session());
-//app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({ origin: '*', credentials: true }));
+app.use(require('express-session')({ secret: SECRET_KEY, resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.use('/', authRoutes);
 app.use('/', profileRoutes);
+app.get('/', (req, res) => {
+    if (req.user) {
+        res.send(`Welcome ${req.user.uid}`);
+    } else {
+        res.send('Please login');
+    }
+});
+
+app.get('/secret', authorizeUser, authorizeAccount, (req, res) => {
+    res.send('congrats you have an account')
+});
 
 console.log(`Started server at ${PORT}...`)
 app.listen(PORT);

@@ -5,24 +5,27 @@ const router = express.Router();
 const { User } = require('../config/db');
 const { authorizeUser } = require('../middleware');
 
-router.post('/createAccount', authorizeUser, async (req, res) => {
+router.route('/createAccount')
+    .get(authorizeUser, (req, res) => {
+        if (req.user.hasAccount) {
+            res.redirect('/');
+        } else {
+            res.sendStatus(200);
+        }
+    })
+    .post(authorizeUser, async (req, res) => {
+        if (!req.user.hasAccount) {
+            const { user } = req.body;
+            user = new User({
+                uid: req.user.uid,
+                name: name,
+                crushes: [],
+            })
+            await user.save();
+            req.user.hasAccount = true;
+        }
 
-    const { name } = req.body;
-
-    if (req.user.hasAccount) {
-        res.status(400).send({
-            message: 'User already has an account',
-        })
-    } else {
-        user = new User({
-            uid: req.user.uid,
-            name: name,
-            crushes: [],
-        })
-        await user.save();
-        req.user.hasAccount = true;
-        res.sendStatus(200);
-    }
-});
+        res.redirect('/secret');
+    });
 
 module.exports = router;
