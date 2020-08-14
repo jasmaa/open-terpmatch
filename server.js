@@ -45,10 +45,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/dashboard', authorizeUser, authorizeAccount, async (req, res) => {
-
     const user = await User.findOne({ uid: req.user.uid });
-
-    res.render('dashboard', { title: 'Dashboard', user: user });
+    const crushers = await User.find({ crushes: req.user.uid })
+    res.render('dashboard', { title: 'Dashboard', user: user, numCrushers: crushers.length });
 });
 
 console.log(`Started server at ${PORT}...`)
