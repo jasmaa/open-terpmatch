@@ -5,20 +5,19 @@ block content
   .card.m-3
     .card-body
       h3(align="center") #{numCrushers} crushing on you
-
-  .card.m-3
-    .card-body
-      h3 Add Crush
-      form(action="/addCrush", method="POST")
-        .form-group
-          label UID
-          input.form-control(name="crushUID", placeholder="Enter crush's UID")
-        .text-right
-          input.btn.btn-primary.btn-sm(type='submit', value='+ Add Crush')
+      h3 Matches
+      ul.list-group.list-group-flush
+        each name in user.matches
+          li.list-group-item.d-flex.justify-content-between.align-items-center
+            span #{name}      
 
   .card.m-3
     .card-body
       h3 Crushes
+      form.input-group.my-3(action="/addCrush", method="POST")
+        input.form-control(name="crushUID", placeholder="Enter crush's UID")
+        .input-group-append
+          input.btn.btn-primary.btn-sm(type='submit', value='+ Add Crush')
       ul.list-group.list-group-flush
         each name in user.crushes
           li.list-group-item.d-flex.justify-content-between.align-items-center

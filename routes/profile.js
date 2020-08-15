@@ -17,12 +17,13 @@ router.route('/createAccount')
 
         if (!req.user.hasAccount) {
 
-            const { name, tagline } = req.body;
+            const { name } = req.body;
 
             user = new User({
                 uid: req.user.uid,
                 name: name,
                 crushes: [],
+                matches: [],
             })
             await user.save();
             req.user.hasAccount = true;
@@ -38,20 +39,44 @@ router.route('/profile')
     })
 
 router.post('/editProfile', authorizeUser, authorizeAccount, async (req, res) => {
-    const { name, tagline } = req.body;
-    await User.updateOne({ uid: req.user.uid }, { name: name, tagline: tagline });
+    const { name } = req.body;
+    await User.updateOne({ uid: req.user.uid }, { name });
     res.redirect('/');
 });
 
 router.post('/addCrush', authorizeUser, authorizeAccount, async (req, res) => {
+
     const { crushUID } = req.body;
     await User.updateOne({ uid: req.user.uid }, { $push: { crushes: crushUID } });
+
+    // Matches users if both mutual crush
+    const crushUser = await User.findOne({ uid: crushUID });
+    if (crushUser && crushUser.crushes.includes(req.user.uid)) {
+        await Promise.all([
+            User.updateOne({ uid: req.user.uid }, { $push: { matches: crushUID } }),
+            User.updateOne({ uid: crushUID }, { $push: { matches: req.user.uid } }),
+        ]);
+
+        // TODO: notify both users
+    }
+
     res.redirect('/');
 });
 
 router.post('/deleteCrush', authorizeUser, authorizeAccount, async (req, res) => {
+
     const { crushUID } = req.body;
     await User.updateOne({ uid: req.user.uid }, { $pull: { crushes: crushUID } });
+
+    // Removes crush if users were matched
+    const crushUser = await User.findOne({ uid: crushUID });
+    if (crushUser && crushUser.matches.includes(req.user.uid)) {
+        await Promise.all([
+            User.updateOne({ uid: req.user.uid }, { $pull: { matches: crushUID } }),
+            User.updateOne({ uid: crushUID }, { $pull: { matches: req.user.uid } }),
+        ]);
+    }
+
     res.redirect('/');
 });
 

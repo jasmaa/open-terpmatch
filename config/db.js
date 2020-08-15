@@ -15,6 +15,7 @@ const User = mongoose.model('User', new Schema({
     uid: String,
     name: String,
     crushes: [String],
+    matches: [String],
 }))
 
 module.exports = {
