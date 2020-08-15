@@ -26,6 +26,7 @@ passport.deserializeUser((user, done) => {
 const app = express();
 
 // Middleware
+app.use(express.static('public'));
 app.use(require('express-session')({ secret: SECRET_KEY, resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
