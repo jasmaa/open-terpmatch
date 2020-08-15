@@ -2,7 +2,7 @@ extends base.pug
 
 block content
 
-  .card.m-3
+  .card.m-5
     .card-body
       h3(align="center") !{pluralize('person', numCrushers, true)} crushing on you
       h3 Matches
@@ -17,15 +17,14 @@ block content
       else
         em No matches
 
-  .card.m-3
+  .card.m-5
     .card-body
       h3 Crushes
     
-      form.input-group.my-3(action="/addCrush", method="POST")
-        input.form-control(name="crushUID", placeholder="Enter crush's UID")
-        .input-group-append
-          button.btn.btn-success.btn-sm(type='submit', value='+ Add Crush')
-            i.fa.fa-plus
+      form.d-flex.align-items-center.my-4(action="/addCrush", method="POST")
+        input.form-control.mr-2(name="crushUID", placeholder="Enter crush's UID")
+        button.btn.btn-sm.icon-btn(type='submit', value='+ Add Crush')
+          i.fa.fa-plus
 
       if user.crushes.length > 0
         ul.list-group.list-group-flush
@@ -34,7 +33,7 @@ block content
               span #{name}
               form(action="/deleteCrush", method="POST")
                 input(type="hidden", name="crushUID", value=name)
-                button.btn.btn-danger.btn-sm(type='submit')
+                button.btn.btn-sm.icon-btn(type='submit')
                   i.fa.fa-minus
       else
         em No crushes
