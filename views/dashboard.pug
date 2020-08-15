@@ -6,14 +6,17 @@ block content
     .card-body
       h3(align="center") !{pluralize('person', numCrushers, true)} crushing on you
       h3 Matches
-
+      
       if user.matches.length > 0
         ul.list-group.list-group-flush
           each name in user.matches
             li.list-group-item.d-flex.justify-content-between.align-items-center
               div.d-flex.align-items-center
                 i.fa.fa-heart.mr-3(style={"color": "red"})
-                strong #{name}
+                span
+                  span Matched with 
+                  strong #{name}
+                  span !
       else
         em No matches
 

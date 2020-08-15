@@ -51,3 +51,7 @@ nav.navbar {
     background-color: #555555;
     color: white;
 }
+
+.profile-img { 
+    border-radius: 50%;
+}

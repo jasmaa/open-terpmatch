@@ -7,6 +7,12 @@ block content
         a.btn.icon-btn(href="/editProfile")
           i.fa.fa-pencil
       .d-flex.flex-column.align-items-center
-        h1 #{user.name}
-      h3 #{user.uid}
-      h3 #{user.email}
+        img.profile-img(src=`https://www.gravatar.com/avatar/${hashProfile(user.email)}?s=200&d=mp`)
+        h1.my-4 #{user.name}
+        .container.w-50.my-4(style={"font-size": "1.2em"})
+          .row
+            strong.col-4 UID:
+            span.col-8 #{user.uid}
+          .row
+            strong.col-4 Email:
+            span.col-8 #{user.email}

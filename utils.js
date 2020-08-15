@@ -1,5 +1,6 @@
 // utils.js
 // Utility functions
+const crypto = require('crypto');
 
 /**
  * Chekcs if email is valid
@@ -11,6 +12,13 @@ function validateEmail(email) {
     return emailRegex.test(email);
 }
 
+function hashProfile(email) {
+    return crypto.createHash('md5')
+        .update(email)
+        .digest('hex');
+}
+
 module.exports = {
     validateEmail: validateEmail,
+    hashProfile: hashProfile,
 }
