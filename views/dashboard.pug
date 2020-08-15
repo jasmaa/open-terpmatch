@@ -4,14 +4,18 @@ block content
 
   .card.m-3
     .card-body
-      h3(align="center") #{numCrushers} crushing on you
+      h3(align="center") !{pluralize('person', numCrushers, true)} crushing on you
       h3 Matches
-      ul.list-group.list-group-flush
-        each name in user.matches
-          li.list-group-item.d-flex.justify-content-between.align-items-center
-            div.d-flex.align-items-center
-              i.fa.fa-heart.mr-3(style={"color": "red"})
-              strong #{name}      
+
+      if user.matches.length > 0
+        ul.list-group.list-group-flush
+          each name in user.matches
+            li.list-group-item.d-flex.justify-content-between.align-items-center
+              div.d-flex.align-items-center
+                i.fa.fa-heart.mr-3(style={"color": "red"})
+                strong #{name}
+      else
+        em No matches
 
   .card.m-3
     .card-body
@@ -23,11 +27,14 @@ block content
           button.btn.btn-success.btn-sm(type='submit', value='+ Add Crush')
             i.fa.fa-plus
 
-      ul.list-group.list-group-flush
-        each name in user.crushes
-          li.list-group-item.d-flex.justify-content-between.align-items-center
-            span #{name}
-            form(action="/deleteCrush", method="POST")
-              input(type="hidden", name="crushUID", value=name)
-              button.btn.btn-danger.btn-sm(type='submit')
-                i.fa.fa-minus
+      if user.crushes.length > 0
+        ul.list-group.list-group-flush
+          each name in user.crushes
+            li.list-group-item.d-flex.justify-content-between.align-items-center
+              span #{name}
+              form(action="/deleteCrush", method="POST")
+                input(type="hidden", name="crushUID", value=name)
+                button.btn.btn-danger.btn-sm(type='submit')
+                  i.fa.fa-minus
+      else
+        em No crushes

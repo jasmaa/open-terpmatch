@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const UMDCASStrategy = require('passport-umd-cas').Strategy;
+const pluralize = require('pluralize');
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
 const { authorizeUser, authorizeAccount } = require('./middleware');
@@ -32,6 +33,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'pug');
+app.locals = {
+    pluralize: pluralize,
+}
 
 // Routes
 app.use('/', authRoutes);
