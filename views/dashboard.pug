@@ -9,19 +9,25 @@ block content
       ul.list-group.list-group-flush
         each name in user.matches
           li.list-group-item.d-flex.justify-content-between.align-items-center
-            span #{name}      
+            div.d-flex.align-items-center
+              i.fa.fa-heart.mr-3(style={"color": "red"})
+              strong #{name}      
 
   .card.m-3
     .card-body
       h3 Crushes
+    
       form.input-group.my-3(action="/addCrush", method="POST")
         input.form-control(name="crushUID", placeholder="Enter crush's UID")
         .input-group-append
-          input.btn.btn-primary.btn-sm(type='submit', value='+ Add Crush')
+          button.btn.btn-success.btn-sm(type='submit', value='+ Add Crush')
+            i.fa.fa-plus
+
       ul.list-group.list-group-flush
         each name in user.crushes
           li.list-group-item.d-flex.justify-content-between.align-items-center
             span #{name}
             form(action="/deleteCrush", method="POST")
               input(type="hidden", name="crushUID", value=name)
-              input.btn.btn-danger.btn-sm(type='submit', value='Remove')
+              button.btn.btn-danger.btn-sm(type='submit')
+                i.fa.fa-minus

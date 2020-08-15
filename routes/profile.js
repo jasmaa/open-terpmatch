@@ -10,23 +10,28 @@ router.route('/createAccount')
         if (req.user.hasAccount) {
             res.redirect('/');
         } else {
-            res.render('createAccount', { title: 'Create Account' })
+            res.render('createAccount', { title: 'Create Account' });
         }
     })
     .post(authorizeUser, async (req, res) => {
 
         if (!req.user.hasAccount) {
 
-            const { name } = req.body;
-
+            const { name, email } = req.body;
             user = new User({
                 uid: req.user.uid,
                 name: name,
+                email: email,
                 crushes: [],
                 matches: [],
-            })
-            await user.save();
-            req.user.hasAccount = true;
+            });
+
+            try {
+                await user.save();
+                req.user.hasAccount = true;
+            } catch (e) {
+                res.render('createAccount', { title: 'Create Account', errorMessage: e.message })
+            }
         }
 
         res.redirect('/dashboard');
@@ -47,14 +52,14 @@ router.post('/editProfile', authorizeUser, authorizeAccount, async (req, res) =>
 router.post('/addCrush', authorizeUser, authorizeAccount, async (req, res) => {
 
     const { crushUID } = req.body;
-    await User.updateOne({ uid: req.user.uid }, { $push: { crushes: crushUID } });
+    await User.updateOne({ uid: req.user.uid }, { $addToSet: { crushes: crushUID } });
 
     // Matches users if both mutual crush
     const crushUser = await User.findOne({ uid: crushUID });
     if (crushUser && crushUser.crushes.includes(req.user.uid)) {
         await Promise.all([
-            User.updateOne({ uid: req.user.uid }, { $push: { matches: crushUID } }),
-            User.updateOne({ uid: crushUID }, { $push: { matches: req.user.uid } }),
+            User.updateOne({ uid: req.user.uid }, { $addToSet: { matches: crushUID } }),
+            User.updateOne({ uid: crushUID }, { $addToSet: { matches: req.user.uid } }),
         ]);
 
         // TODO: notify both users

@@ -12,8 +12,15 @@ mongoose.connect(
 });
 
 const User = mongoose.model('User', new Schema({
-    uid: String,
-    name: String,
+    uid: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    name: {
+        type: String,
+        required: true,
+    },
     crushes: [String],
     matches: [String],
 }))
