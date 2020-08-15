@@ -1,11 +1,20 @@
-nav.navbar
+nav.navbar.navbar-dark
+  
   a.navbar-brand(href="/") Open Terpmatch
+
   ul.navbar-nav.mr-auto
+    li.nav-item
+      a.nav-link(href="/about") About
 
   if user
-    .crush-counter.mx-2
-      i.fa.fa-heart.mr-2
-      span #{numCrushers}
+    if numCrushers > 0
+      .crush-counter.active.mx-2
+        i.fa.fa-heart.mr-2.pulse
+        span #{numCrushers}
+    else
+      .crush-counter.mx-2
+        i.fa.fa-heart.mr-2
+        span #{numCrushers}
     
     .dropdown
       button.btn.dropdown-toggle(data-toggle="dropdown" style={'color': 'white'})
@@ -14,4 +23,4 @@ nav.navbar
         a.dropdown-item(href="/profile") Profile
         a.dropdown-item(href="/logout") Logout
   else
-    a.btn.btn-primary(href="/umd/login") Login
+    a.btn.login-btn(href="/umd/login") Login

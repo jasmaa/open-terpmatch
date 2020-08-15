@@ -10,7 +10,7 @@ block content
       form(action='/editProfile', method='POST')
         .form-group
           label Email (optional)
-          input.form-control(type='email', name='email', value=user.email)
+          input.form-control(type='email' name='email' value=user.email placeholder="Enter email address")
         .text-right
-          input.btn.btn-primary.mr-1(type='submit', value='Save')
-          a.btn.btn-secondary(href='/profile') Cancel
+          input.btn.btn-outline-primary.mr-3(type='submit' value='Save')
+          a.btn.btn-outline-secondary(href='/profile') Cancel
