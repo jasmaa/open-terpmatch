@@ -55,3 +55,12 @@ nav.navbar {
 .profile-img { 
     border-radius: 50%;
 }
+
+.crush-counter {
+    padding: 0.3em;
+    border-radius: 0.5em;
+    background-color: white;
+    color: red;
+    font-weight: bold;
+    user-select: none;
+}

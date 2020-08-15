@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const { User } = require('../config/db');
-const { authorizeUser, authorizeAccount } = require('../middleware');
+const { authorizeUser, authorizeAccount, getUserInfo } = require('../middleware');
 
 router.route('/createAccount')
     .get(authorizeUser, (req, res) => {
@@ -37,15 +37,21 @@ router.route('/createAccount')
     });
 
 router.route('/profile')
-    .get(authorizeUser, authorizeAccount, async (req, res) => {
-        const user = await User.findOne({ uid: req.user.uid });
-        res.render('profile', { title: 'Profile', user: user });
+    .get(authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+        res.render('profile', {
+            title: 'Profile',
+            user: req.userInfo.user,
+            numCrushers: req.userInfo.numCrushers,
+        });
     })
 
 router.route('/editProfile')
-    .get(authorizeUser, authorizeAccount, async (req, res) => {
-        const user = await User.findOne({ uid: req.user.uid });
-        res.render('editProfile', { title: 'Edit Profile', user: user });
+    .get(authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+        res.render('editProfile', {
+            title: 'Edit Profile',
+            user: req.userInfo.user,
+            numCrushers: req.userInfo.numCrushers,
+        });
     })
     .post(authorizeUser, authorizeAccount, async (req, res) => {
         const { email } = req.body;

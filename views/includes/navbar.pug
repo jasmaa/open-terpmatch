@@ -1,8 +1,12 @@
 nav.navbar
-  a.navbar-brand(href="/") Terpmatch
+  a.navbar-brand(href="/") Open Terpmatch
   ul.navbar-nav.mr-auto
 
   if user
+    .crush-counter.mx-2
+      i.fa.fa-heart.mr-2
+      span #{numCrushers}
+    
     .dropdown
       button.btn.dropdown-toggle(data-toggle="dropdown" style={'color': 'white'})
         i.fa.fa-user

@@ -5,8 +5,7 @@ const UMDCASStrategy = require('passport-umd-cas').Strategy;
 const pluralize = require('pluralize');
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
-const { authorizeUser, authorizeAccount } = require('./middleware');
-const { User } = require('./config/db');
+const { authorizeUser, authorizeAccount, getUserInfo } = require('./middleware');
 const { hashProfile } = require('./utils');
 
 require('dotenv').config();
@@ -51,13 +50,11 @@ app.get('/', (req, res) => {
     }
 });
 
-app.get('/dashboard', authorizeUser, authorizeAccount, async (req, res) => {
-    const user = await User.findOne({ uid: req.user.uid });
-    const crushers = await User.find({ crushes: req.user.uid })
+app.get('/dashboard', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
     res.render('dashboard', {
         title: 'Dashboard',
-        user: user,
-        numCrushers: crushers.length,
+        user: req.userInfo.user,
+        numCrushers: req.userInfo.numCrushers,
     });
 });
 

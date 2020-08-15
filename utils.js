@@ -3,7 +3,7 @@
 const crypto = require('crypto');
 
 /**
- * Chekcs if email is valid
+ * Checks if email is valid
  * 
  * @param {*} email 
  */
@@ -12,6 +12,11 @@ function validateEmail(email) {
     return emailRegex.test(email);
 }
 
+/**
+ * Generates MD5 hash of email for Gravatar
+ * 
+ * @param {*} email 
+ */
 function hashProfile(email) {
     return crypto.createHash('md5')
         .update(email)
