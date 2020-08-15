@@ -2,6 +2,7 @@
 // MongoDB configuration
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const { validateEmail } = require('../utils');
 
 require('dotenv').config();
 
@@ -20,6 +21,13 @@ const User = mongoose.model('User', new Schema({
     name: {
         type: String,
         required: true,
+    },
+    email: {
+        type: String,
+        validate: {
+            validator: validateEmail,
+            message: 'Invalid email',
+        },
     },
     crushes: [String],
     matches: [String],

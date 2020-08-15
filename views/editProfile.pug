@@ -1,0 +1,16 @@
+extends base.pug
+
+block content
+  .card
+    .card-body
+
+      if errorMessage
+        .alert.alert-danger #{errorMessage}
+
+      form(action='/editProfile', method='POST')
+        .form-group
+          label Email (optional)
+          input.form-control(type='email', name='email', value=user.email)
+        .text-right
+          input.btn.btn-primary.mr-1(type='submit', value='Save')
+          a.btn.btn-secondary(href='/profile') Cancel

@@ -2,8 +2,10 @@ extends base.pug
 
 block content
   .card
-      .card-body
-        .d-flex.flex-column.align-items-center
-          h1 #{user.name}
-        h3 #{user.uid}
-        h3 #{user.tagline}
+    .card-body
+      .d-flex.flex-column.align-items-end
+        a.btn.btn-primary(href="/editProfile") Edit
+      .d-flex.flex-column.align-items-center
+        h1 #{user.name}
+      h3 #{user.uid}
+      h3 #{user.email}

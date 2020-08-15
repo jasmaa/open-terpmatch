@@ -29,12 +29,11 @@ router.route('/createAccount')
             try {
                 await user.save();
                 req.user.hasAccount = true;
+                res.redirect('/dashboard');
             } catch (e) {
-                res.render('createAccount', { title: 'Create Account', errorMessage: e.message })
+                res.render('createAccount', { title: 'Create Account', errorMessage: e.message });
             }
         }
-
-        res.redirect('/dashboard');
     });
 
 router.route('/profile')
@@ -43,11 +42,26 @@ router.route('/profile')
         res.render('profile', { title: 'Profile', user: user });
     })
 
-router.post('/editProfile', authorizeUser, authorizeAccount, async (req, res) => {
-    const { name } = req.body;
-    await User.updateOne({ uid: req.user.uid }, { name });
-    res.redirect('/');
-});
+router.route('/editProfile')
+    .get(authorizeUser, authorizeAccount, async (req, res) => {
+        const user = await User.findOne({ uid: req.user.uid });
+        res.render('editProfile', { title: 'Edit Profile', user: user });
+    })
+    .post(authorizeUser, authorizeAccount, async (req, res) => {
+        const { email } = req.body;
+
+        try {
+            await User.findOneAndUpdate(
+                { uid: req.user.uid },
+                { $set: { email } },
+                { new: true, runValidators: true, useFindAndModify: true }
+            );
+            res.redirect('/profile');
+        } catch (e) {
+            const user = await User.findOne({ uid: req.user.uid });
+            res.render('editProfile', { title: 'Edit Account', user: user, errorMessage: e.message })
+        }
+    });
 
 router.post('/addCrush', authorizeUser, authorizeAccount, async (req, res) => {
 
@@ -63,6 +77,7 @@ router.post('/addCrush', authorizeUser, authorizeAccount, async (req, res) => {
         ]);
 
         // TODO: notify both users
+        // TODO: add email account verification
     }
 
     res.redirect('/');
