@@ -15,8 +15,6 @@ mongoose.connect(connStr, {
     useUnifiedTopology: true
 });
 
-mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
-
 const User = mongoose.model('User', new Schema({
     uid: {
         type: String,

@@ -60,15 +60,15 @@ router.route('/editProfile')
 
         const { email } = req.body;
 
-        try {
-            const user = await User.findOneAndUpdate(
-                { uid: req.user.uid },
-                { $set: { email } },
-                { runValidators: true, useFindAndModify: false }
-            );
+        if (email !== undefined) {
+            try {
+                const user = await User.findOneAndUpdate(
+                    { uid: req.user.uid },
+                    { $set: { email } },
+                    { runValidators: true, useFindAndModify: false }
+                );
 
-            // Reset verification status and determine if email verification needs to be sent
-            if (email) {
+                // Reset verification status and determine if email verification needs to be sent
                 if (email.length === 0) {
 
                     // Reset status if email set to empty
@@ -83,14 +83,13 @@ router.route('/editProfile')
                         .verifications
                         .create({ to: email, channel: 'email' });
                 }
+            } catch (e) {
+                const user = await User.findOne({ uid: req.user.uid });
+                res.render('editProfile', { title: 'Edit Account', user: user, errorMessage: e.message })
             }
-
-            res.redirect('/profile');
-
-        } catch (e) {
-            const user = await User.findOne({ uid: req.user.uid });
-            res.render('editProfile', { title: 'Edit Account', user: user, errorMessage: e.message })
         }
+
+        res.redirect('/profile');
     });
 
 router.post('/addCrush', authorizeUser, authorizeAccount, async (req, res) => {
