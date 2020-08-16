@@ -31,6 +31,8 @@ const User = mongoose.model('User', new Schema({
     },
     crushes: [String],
     matches: [String],
+    isEmailVerified: Boolean,
+    isSMSVerified: Boolean,
 }))
 
 module.exports = {

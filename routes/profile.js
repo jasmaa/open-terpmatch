@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const { User } = require('../config/db');
 const { authorizeUser, authorizeAccount, getUserInfo } = require('../middleware');
+const twilioClient = require('../config/twilioClient');
 
 router.route('/createAccount')
     .get(authorizeUser, (req, res) => {
@@ -24,6 +25,8 @@ router.route('/createAccount')
                 email: email,
                 crushes: [],
                 matches: [],
+                isEmailVerified: false,
+                isSMSVerified: false,
             });
 
             try {
@@ -54,15 +57,41 @@ router.route('/editProfile')
         });
     })
     .post(authorizeUser, authorizeAccount, async (req, res) => {
+
         const { email } = req.body;
 
         try {
-            await User.findOneAndUpdate(
+            const user = await User.findOneAndUpdate(
                 { uid: req.user.uid },
                 { $set: { email } },
-                { new: true, runValidators: true, useFindAndModify: false }
+                { runValidators: true, useFindAndModify: false }
             );
-            res.redirect('/profile');
+
+            // Reset verification status and determine if email verification needs to be sent
+            if (email.length === 0) {
+
+                // Reset status if email set to empty
+                await User.findOneAndUpdate({ uid: req.user.uid }, { $set: { isEmailVerified: false } });
+
+                res.redirect('/profile');
+
+            } else if (email !== user.email) {
+
+                // Reset status and verify if email is changed
+                await User.findOneAndUpdate({ uid: req.user.uid }, { $set: { isEmailVerified: false } });
+
+                const verification = await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
+                    .verifications
+                    .create({ to: email, channel: 'email' });
+
+                res.redirect('/profile');
+
+            } else {
+                
+                // Do nothing if email is not changed
+                res.redirect('/profile');
+            }
+
         } catch (e) {
             const user = await User.findOne({ uid: req.user.uid });
             res.render('editProfile', { title: 'Edit Account', user: user, errorMessage: e.message })
