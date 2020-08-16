@@ -9,10 +9,14 @@ block content
       .d-flex.flex-column.align-items-center
         img.profile-img(src=`https://www.gravatar.com/avatar/${hashProfile(user.email)}?s=200&d=mp`)
         h1.my-4 #{user.name}
-        .container.w-50.my-4(style={"font-size": "1.2em"})
+        .container.my-4(style={"font-size": "1.2em"})
           .row
-            strong.col-4 UID:
+            strong.col-sm-4 UID:
             span.col-8 #{user.uid}
           .row
-            strong.col-4 Email:
-            span.col-8 #{user.email}
+            strong.col-sm-4 Email:
+            .col-8
+              if user.email
+                span #{user.email}
+              else
+                em No email provided

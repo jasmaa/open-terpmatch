@@ -40,9 +40,13 @@ const authorizeAccount = (req, res, next) => {
  * @param {*} next 
  */
 const getUserInfo = async (req, res, next) => {
-    const user = await User.findOne({ uid: req.user.uid });
-    const crushers = await User.find({ crushes: req.user.uid });
-    req.userInfo = { user: user, numCrushers: crushers.length };
+    if (req.user && req.user.hasAccount) {
+        const user = await User.findOne({ uid: req.user.uid });
+        const crushers = await User.find({ crushes: req.user.uid });
+        req.userInfo = { user: user, numCrushers: crushers.length };
+    } else {
+        req.userInfo = {};
+    }
     next();
 }
 

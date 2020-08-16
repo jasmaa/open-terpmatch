@@ -1,0 +1,99 @@
+extends base.pug
+
+block feature
+  .feature-img.about.container-fluid.d-flex.flex-column.justify-content-center.align-items-center
+    strong(style={"font-size": "6vmax", "text-align": "center", "animation": "fade-in-ani 1s forwards 0.0s", "opacity": "0"}) About
+
+block content
+  .about-content.my-5(style={"font-size": "1.2em"})
+    :markdown-it(linkify langPrefix='highlight-')
+
+      # What is this?
+      
+      Open Terpmatch is an open-source re-creation of Brandon Ferrell's original University of Maryland matching site,
+      [Terpmatch](https://terpmatch.com). The main goal of the project is to keep Terpmatch as a platform accessible and open by
+      allowing anyone in the future to re-deploy this site as well as contribute to its development.
+  
+      # How does this work?
+
+      Open Terpmatch functions nearly identically to Terpmatch. You are able to **crush** on someone by adding their UID to
+      a list of your crushes without notifying any of them. If one of your crushes has an account and also crushes on you,
+      both of you will **match** and see each other listed under your matches.
+
+      # How do I find my crush's UID?
+
+      If you know the name of your crush, the easiest way to find their UID is to look it up through
+      [UMD's directory](https://identity.umd.edu/search).
+
+      # How do I know who is crushing on me?
+      
+      You are not able to know the names of the people who are crushing on you until you match with any of them.
+      However, it is possible to see the number of people crushing on you displayed in the heart counter on the navigation bar.
+
+      # Why am I not getting any matches?
+
+      Open Terpmatch only provides a platform for anonymous matching. To attract your crush, it will be necessary for 
+      you to work some magic on your end.
+
+      # What do I do once I match?
+
+      A match will be displayed on the dashboard once one occurs and Open Terpmatch will also notify both you and
+      your crush upon detecting a match. The match listing will provide any contact information
+      your crush listed, allowing you to personally contact them.
+
+      ⚠️**IMPORTANT**: If you have already matched with someone and are happily in a relationship, you should close your Open Terpmatch account
+      or remove all crushes in order to avoid potentially matching with someone else and notifying them.
+
+      # What do I do if I get multiple matches?
+
+      Open Terpmatch will notify both parties of all matches gotten regardless of whether either user has already matched with someone else
+      in the past. This can be avoided if you close your account or remove all crushes after making your first match.
+
+      # How do I update my contact information?
+
+      Your contact information can be editted by going to the [edit profile page](/editProfile).
+
+      # I can't log in
+
+      Login is provided by UMD's central authentication service. Unfortunately, if you do not have an account with UMD, you
+      will not be able to use Open Terpmatch.
+
+      # Can you stop sending me notifications?
+
+      Notification settings can be set by going to the [settings page](). Alternatively, we will also stop notifying you
+      if you remove your email or SMS number from your profile.
+
+      # Is my account secure?
+
+      Open Terpmatch aims to keep security as a top priority.
+      Secure login is guaranteed by UMD's login system meaning that we only store information about crushes and
+      contact information for users. If you have further questions or concerns about security, please contact the project maintainer.
+      Additionally, the codebase is available on GitHub for scrutiny.
+
+      # How can I contribute to the project?
+
+      Open Terpmatch is sourced under the MIT license and the codebase is hosted on GitHub. If you are interested in making a
+      contribution, read through our contribution guidelines and make a pull request!
+
+      # Can I modify and deploy this site by myself?
+
+      Yes! Anyone can modify and deploy their own version of Open Terpmatch! Re-skin the aesthetics. Remove the emojis.
+      Change the login system to be compatible with another university's. Turn it into TerpNemesis™, a place to meet enemies.
+      Anything's possible; the world's your oyster!
+
+      # I found a bug
+
+      Please log an issue on our GitHub page describing the bug. We would also really appreciate a pull request if you
+      find a fix!
+
+      # I have a question/complaint
+
+      Please contact the project maintainer with your concerns.
+
+      # Can I crush on Dr. XYZ who is in a happy monogamous relationship?
+
+      Yes but why
+
+      # Get rid of those cringey emojis
+      
+      Uh lol no 😂

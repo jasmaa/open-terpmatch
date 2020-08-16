@@ -50,6 +50,14 @@ app.get('/', (req, res) => {
     }
 });
 
+app.get('/about', getUserInfo, (req, res) => {
+    res.render('about', {
+        title: 'About',
+        user: req.userInfo.user,
+        numCrushers: req.userInfo.numCrushers,
+    });
+});
+
 app.get('/dashboard', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
     res.render('dashboard', {
         title: 'Dashboard',

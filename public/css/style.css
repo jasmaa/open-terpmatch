@@ -95,13 +95,31 @@ nav.navbar {
     }
 }
 
-.home-img {
-    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("/images/home.jpg");
-    background-size: cover;
-    background-position: center;
+.feature-img {
     width: 100%;
     min-height: 30em;
     user-select: none;
+}
+
+.feature-img.home {
+    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("/images/home.jpg");
+    background-size: cover;
+    background-position: center;
+}
+.feature-img.about {
+    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("/images/home.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.about-content > h1 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+.about-content > p {
+    line-height: 200%;
+    margin-left: 1em;
+    margin-right: 1em;
 }
 
 @keyframes fade-in-ani {
