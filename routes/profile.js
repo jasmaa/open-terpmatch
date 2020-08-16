@@ -72,7 +72,7 @@ router.route('/editProfile')
 router.post('/addCrush', authorizeUser, authorizeAccount, async (req, res) => {
 
     const { crushUID } = req.body;
-    if (crushUID && crushUID.length > 0) {
+    if (crushUID && crushUID.length > 0 && crushUID !== req.user.uid) {
         await User.updateOne({ uid: req.user.uid }, { $addToSet: { crushes: crushUID } });
 
         // Matches users if both mutual crush
