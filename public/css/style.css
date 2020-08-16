@@ -78,9 +78,9 @@ nav.navbar {
 }
 
 .pulse {
-    animation: heart-pulse 0.9s infinite ease-out;
+    animation: heart-pulse-ani 0.9s infinite ease-out;
 }
-@keyframes heart-pulse {
+@keyframes heart-pulse-ani {
     0% {
       transform: scale(0.8);
     }
@@ -102,4 +102,24 @@ nav.navbar {
     width: 100%;
     min-height: 30em;
     user-select: none;
+}
+
+@keyframes fade-in-ani {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in-bt-ani {
+    0% {
+        opacity: 0;
+        transform: translateY(10%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

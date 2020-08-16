@@ -3,16 +3,18 @@ extends base.pug
 block feature
 
   .home-img.container-fluid.d-flex.flex-column.justify-content-center.align-items-center
-    strong(style={"font-size": "6vmax", "text-align": "center"}) Welcome to Open Terpmatch!
-    p.my-3(style={"font-size": "2vmax", "text-align": "center"}) Anonymously match with others at the University of Maryland
-    a.btn.btn-primary.btn-lg.my-5(href="/umd/login") Get Started Today!
+    strong(style={"font-size": "6vmax", "text-align": "center", "animation": "fade-in-ani 1s forwards 0.0s", "opacity": "0"}) Welcome to Open Terpmatch!
+    p.my-3(style={"font-size": "2vmax", "text-align": "center", "animation": "fade-in-ani 1s forwards 0.1s", "opacity": "0"}) Anonymously match with others at the University of Maryland
+    a.btn.btn-primary.btn-lg.my-5(href="/umd/login" style={"animation": "fade-in-ani 1s forwards 0.2s", "opacity": "0"}) Get Started Today!
 
   .container-fluid.my-3
     .row
       .col-sm.p-3
-        .card.w-100.h-100(style={"font-size": "1.2em", "width": "30%"})
+        .card.w-100.h-100(style={"font-size": "1.2em", "width": "30%", "animation": "fade-in-bt-ani 1s forwards 0.0s", "opacity": "0"})
           .card-body
-            h1.mb-5 Fully Featured
+            h2.mb-5
+              i.fa.fa-laptop.mr-3
+              span Fully Featured
             p Open Terpmatch does everything the original Terpmatch did plus more!
             p New features include:
             ul
@@ -21,15 +23,19 @@ block feature
               li Mobile compatibility in mind
 
       .col-sm.py-3
-        .card.w-100.h-100(style={"font-size": "1.2em", "width": "30%"})
+        .card.w-100.h-100(style={"font-size": "1.2em", "width": "30%", "animation": "fade-in-bt-ani 1s forwards 0.2s", "opacity": "0"})
           .card-body
-            h1.mb-5 Open Source
+            h2.mb-5
+              i.fa.fa-code.mr-3
+              span Open Source
             p Open Terpmatch is open-sourced under the MIT license. We are commited to keeping Terpmatch accessible as a platform.
 
       .col-sm.p-3
-        .card.w-100.h-100(style={"font-size": "1.2em", "width": "30%"})
+        .card.w-100.h-100(style={"font-size": "1.2em", "width": "30%", "animation": "fade-in-bt-ani 1s forwards 0.4s", "opacity": "0"})
           .card-body
-            h1.mb-5 FAQ
+            h2.mb-5
+              i.fa.fa-question.mr-3
+              span FAQ
             span
               span Have any questions about Open Terpmatch? Check out the about page's 
               a(href="/about") FAQ
