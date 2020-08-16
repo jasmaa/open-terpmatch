@@ -7,10 +7,14 @@ const { validateEmail } = require('../utils');
 require('dotenv').config();
 
 mongoose.connect(
-    `mongodb://${process.env.MONGODB_URI}/${process.env.MONGO_DATABASE}`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`,
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    },
+);
+
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
 
 const User = mongoose.model('User', new Schema({
     uid: {
