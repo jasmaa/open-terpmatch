@@ -93,4 +93,13 @@ nav.navbar {
     100% {
       transform: scale(0.8);
     }
-  }
+}
+
+.home-img {
+    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("/images/home.jpg");
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    min-height: 30em;
+    user-select: none;
+}
