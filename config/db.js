@@ -7,7 +7,7 @@ const { validateEmail } = require('../utils');
 require('dotenv').config();
 
 mongoose.connect(
-    `mongodb://${process.env.MONGO_HOST}/${process.env.MONGO_DATABASE}`, {
+    `mongodb://${process.env.MONGODB_URI}/${process.env.MONGO_DATABASE}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
