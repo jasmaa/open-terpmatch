@@ -10,9 +10,9 @@ block content
       form(action='/createAccount', method='POST')
         .form-group
           label Name
-          input.form-control(type='text', name='name', value='')
+          input.form-control(type='text', name='name', value='', placeholder='Enter full name')
         .form-group
           label Email (optional)
-          input.form-control(type='email', name='email', value='')
+          input.form-control(type='email', name='email', value='', placeholder='Enter email address')
         .text-right
           input.btn.btn-outline-primary(type='submit', value='Submit')

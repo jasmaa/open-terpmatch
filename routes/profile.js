@@ -22,7 +22,7 @@ router.route('/createAccount')
             user = new User({
                 uid: req.user.uid,
                 name: name,
-                email: email,
+                email: email || '',
                 crushes: [],
                 matches: [],
                 isEmailVerified: false,
@@ -68,29 +68,24 @@ router.route('/editProfile')
             );
 
             // Reset verification status and determine if email verification needs to be sent
-            if (email.length === 0) {
+            if (email) {
+                if (email.length === 0) {
 
-                // Reset status if email set to empty
-                await User.findOneAndUpdate({ uid: req.user.uid }, { $set: { isEmailVerified: false } });
+                    // Reset status if email set to empty
+                    await User.findOneAndUpdate({ uid: req.user.uid }, { $set: { isEmailVerified: false } });
 
-                res.redirect('/profile');
+                } else if (email !== user.email) {
 
-            } else if (email !== user.email) {
+                    // Reset status and verify if email is changed
+                    await User.findOneAndUpdate({ uid: req.user.uid }, { $set: { isEmailVerified: false } });
 
-                // Reset status and verify if email is changed
-                await User.findOneAndUpdate({ uid: req.user.uid }, { $set: { isEmailVerified: false } });
-
-                const verification = await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
-                    .verifications
-                    .create({ to: email, channel: 'email' });
-
-                res.redirect('/profile');
-
-            } else {
-                
-                // Do nothing if email is not changed
-                res.redirect('/profile');
+                    const verification = await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
+                        .verifications
+                        .create({ to: email, channel: 'email' });
+                }
             }
+
+            res.redirect('/profile');
 
         } catch (e) {
             const user = await User.findOne({ uid: req.user.uid });
