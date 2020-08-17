@@ -3,10 +3,6 @@ extends base.pug
 block content
   .card.my-5
     .card-body
-    
-      if errorMessage
-        .alert.alert-danger #{errorMessage}
-
       form(action="/createAccount", method="POST")
         .form-group
           label Name

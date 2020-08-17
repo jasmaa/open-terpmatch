@@ -1,3 +1,6 @@
+
+require('dotenv').config();
+
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
@@ -8,8 +11,6 @@ const profileRoutes = require('./routes/profile');
 const verificationRoutes = require('./routes/verification');
 const { authorizeUser, authorizeAccount, getUserInfo } = require('./middleware');
 const { hashProfile } = require('./utils');
-
-require('dotenv').config();
 
 const PORT = process.env.PORT || 3000;
 const SECRET_KEY = process.env.SECRET_KEY || 'keyboard cat';

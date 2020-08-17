@@ -6,45 +6,56 @@ block content
       .d-flex.flex-column.align-items-end
         a.btn.icon-btn(href="/editProfile")
           i.fa.fa-pencil
-      .d-flex.flex-column.align-items-center
+      .container.d-flex.flex-column.align-items-center
 
         img.profile-img(src=`https://www.gravatar.com/avatar/${hashProfile(user.email)}?s=200&d=mp`)
         h1.my-4 #{user.name}
 
-        .container.my-4(style={"font-size": "1.2em"})
+        .my-4(style={"font-size": "1.2em"})
+          .my-4
+            strong UID:
+            p.ml-3 #{user.uid}
 
-          .row.d-flex.align-items-center.my-3
-            strong.col-sm-4 UID:
-            span.col-8 #{user.uid}
-
-          .row.d-flex.align-items-center.my-3
-            strong.col-md-4 Email:
-            .col-8
+          .my-4
+            strong Email:
+            
+            .ml-3
               if user.email
-                span
-                  if user.isEmailVerified
+                if user.isEmailVerified
+                  .d-flex.align-items-center
                     i.fa.fa-check.mr-3
                     span #{user.email}
-                  else
-                    form.form-inline(action="/verifyEmail", method="POST")
-                      span.mr-3 #{user.email}
-                      input.form-control.mr-3.my-3(type='text' name='code' placeholder="Enter code")
-                      input.btn.btn-outline-primary.mr-3(type='submit' value='Verify')
+                else
+                  p.mr-3 #{user.email}
+                  form.my-3(action="/verifyEmail", method="POST")
+                    .form-group
+                      input.form-control.mr-3(type='text' name='code' placeholder="Enter code" autocomplete="off")
+                    .text-right
+                      input.btn.btn-primary.mr-3(type='submit' value='Verify')
+                  form.my-3(action="/resendEmail", method="POST")
+                    .text-right
+                      input.btn.btn-primary.mr-3(type='submit' value='Resend Code')
               else
                 em No email provided
           
-          .row.d-flex.align-items-center.my-3
-            strong.col-sm-4 Phone:
-            .col-8
+          .my-4
+            strong Phone:
+            
+            .ml-3
               if user.phone
-                span
-                  if user.isPhoneVerified
+                if user.isPhoneVerified
+                  .d-flex.align-items-center
                     i.fa.fa-check.mr-3
                     span #{user.phone}
-                  else
-                    form.form-inline(action="/verifyPhone", method="POST")
-                      span.mr-3 #{user.phone}
-                      input.form-control.mr-3.my-3(type='text' name='code' placeholder="Enter code")
-                      input.btn.btn-outline-primary.mr-3(type='submit' value='Verify')
+                else
+                  p.mr-3 #{user.phone}
+                  form.my-3(action="/verifyPhone", method="POST")
+                    .form-group
+                      input.form-control.mr-3(type='text' name='code' placeholder="Enter code" autocomplete="off")
+                    .text-right
+                      input.btn.btn-primary.mr-3(type='submit' value='Verify')
+                  form.my-3(action="/resendPhone", method="POST")
+                    .text-right
+                      input.btn.btn-primary.mr-3(type='submit' value='Resend Code')
               else
                 em No phone provided

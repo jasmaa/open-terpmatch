@@ -1,0 +1,8 @@
+.mt-5
+  if errorMessages
+    for msg in errorMessages
+      .alert.alert-danger #{msg}
+
+  if successMessages
+    for msg in successMessages
+      .alert.alert-success #{msg}

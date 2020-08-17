@@ -54,7 +54,7 @@ router.route('/createAccount')
                 res.redirect('/dashboard');
 
             } catch (e) {
-                res.render('createAccount', { title: 'Create Account', errorMessage: e.message });
+                res.render('createAccount', { title: 'Create Account', errorMessages: [e.message] });
             }
         }
     });
@@ -118,7 +118,7 @@ router.route('/editProfile')
 
         } catch (e) {
             const user = await User.findOne({ uid: req.user.uid });
-            res.render('editProfile', { title: 'Edit Account', user: user, errorMessage: e.message })
+            res.render('editProfile', { title: 'Edit Account', user: user, errorMessages: [e.message] });
         }
 
         res.redirect('/profile');
