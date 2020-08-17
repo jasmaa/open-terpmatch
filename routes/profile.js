@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const { User } = require('../config/db');
 const { authorizeUser, authorizeAccount, getUserInfo } = require('../middleware');
+const { formatPhone } = require('../utils');
 const twilioClient = require('../config/twilioClient');
 
 router.route('/createAccount')
@@ -88,8 +89,27 @@ router.route('/editProfile')
                 }
             }
 
+            // Update phone
             if (phone !== undefined) {
 
+                if (phone.length === 0) {
+
+                    await User.findOneAndUpdate({ uid: req.user.uid }, { $set: { isPhoneVerified: false } });
+
+                } else if (phone !== user.phone) {
+
+                    await User.findOneAndUpdate({ uid: req.user.uid }, { $set: { isPhoneVerified: false } });
+
+                    try {
+                        const verification = await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
+                            .verifications
+                            .create({ to: formatPhone(phone), channel: 'sms' });
+
+                        console.log(verification);
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
             }
 
         } catch (e) {

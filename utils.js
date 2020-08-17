@@ -23,6 +23,21 @@ function validatePhone(phone) {
 }
 
 /**
+ * Formats phone number
+ * 
+ * @param {*} phone 
+ */
+function formatPhone(phone) {
+    if (phone) {
+        const codes = phone.split('-');
+        // assume US
+        return `+1${codes.join('')}`;
+    } else {
+        return phone;
+    }
+}
+
+/**
  * Generates MD5 hash of email for Gravatar
  * 
  * @param {*} email 
@@ -36,5 +51,6 @@ function hashProfile(email) {
 module.exports = {
     validateEmail: validateEmail,
     validatePhone: validatePhone,
+    formatPhone: formatPhone,
     hashProfile: hashProfile,
 }

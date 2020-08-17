@@ -6,7 +6,7 @@ const pluralize = require('pluralize');
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
 const { authorizeUser, authorizeAccount, getUserInfo } = require('./middleware');
-const { hashProfile } = require('./utils');
+const { formatPhone, hashProfile } = require('./utils');
 const { User } = require('./config/db');
 const twilioClient = require('./config/twilioClient');
 
@@ -79,6 +79,28 @@ app.get('/emailVerify', authorizeUser, authorizeAccount, getUserInfo, async (req
 
         if (check.valid) {
             await User.updateOne({ uid: req.user.uid }, { $set: { isEmailVerified: true } });
+        }
+        
+        // TODO: replace with success acknowledgement
+        res.sendStatus(200);
+
+    } catch (e) {
+        console.log(e)
+        res.sendStatus(500);
+    }
+});
+
+app.get('/phoneVerify', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+
+    const { code } = req.query;
+
+    try {
+        const check = await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
+            .verificationChecks
+            .create({ to: formatPhone(req.userInfo.user.phone), code: code });
+
+        if (check.valid) {
+            await User.updateOne({ uid: req.user.uid }, { $set: { isPhoneVerified: true } });
         }
         
         // TODO: replace with success acknowledgement
