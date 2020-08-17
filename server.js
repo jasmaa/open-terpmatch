@@ -68,9 +68,9 @@ app.get('/dashboard', authorizeUser, authorizeAccount, getUserInfo, async (req, 
     });
 });
 
-app.get('/emailVerify', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+app.post('/verifyEmail', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
 
-    const { code } = req.query;
+    const { code } = req.body;
 
     try {
         const check = await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
@@ -90,9 +90,9 @@ app.get('/emailVerify', authorizeUser, authorizeAccount, getUserInfo, async (req
     }
 });
 
-app.get('/phoneVerify', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+app.post('/verifyPhone', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
 
-    const { code } = req.query;
+    const { code } = req.body;
 
     try {
         const check = await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)

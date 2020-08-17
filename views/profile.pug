@@ -7,23 +7,44 @@ block content
         a.btn.icon-btn(href="/editProfile")
           i.fa.fa-pencil
       .d-flex.flex-column.align-items-center
+
         img.profile-img(src=`https://www.gravatar.com/avatar/${hashProfile(user.email)}?s=200&d=mp`)
         h1.my-4 #{user.name}
+
         .container.my-4(style={"font-size": "1.2em"})
-          .row
+
+          .row.d-flex.align-items-center.my-3
             strong.col-sm-4 UID:
             span.col-8 #{user.uid}
-          .row
-            strong.col-sm-4 Email:
+
+          .row.d-flex.align-items-center.my-3
+            strong.col-md-4 Email:
             .col-8
               if user.email
-                span #{user.email}
+                span
+                  if user.isEmailVerified
+                    i.fa.fa-check.mr-3
+                    span #{user.email}
+                  else
+                    form.form-inline(action="/verifyEmail", method="POST")
+                      span.mr-3 #{user.email}
+                      input.form-control.mr-3.my-3(type='text' name='code' placeholder="Enter code")
+                      input.btn.btn-outline-primary.mr-3(type='submit' value='Verify')
               else
                 em No email provided
-          .row
+          
+          .row.d-flex.align-items-center.my-3
             strong.col-sm-4 Phone:
             .col-8
               if user.phone
-                span #{user.phone}
+                span
+                  if user.isPhoneVerified
+                    i.fa.fa-check.mr-3
+                    span #{user.phone}
+                  else
+                    form.form-inline(action="/verifyPhone", method="POST")
+                      span.mr-3 #{user.phone}
+                      input.form-control.mr-3.my-3(type='text' name='code' placeholder="Enter code")
+                      input.btn.btn-outline-primary.mr-3(type='submit' value='Verify')
               else
                 em No phone provided
