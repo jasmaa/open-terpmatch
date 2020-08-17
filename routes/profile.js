@@ -4,8 +4,9 @@ const express = require('express');
 const router = express.Router();
 const { User } = require('../config/db');
 const { authorizeUser, authorizeAccount, getUserInfo } = require('../middleware');
-const { formatPhone } = require('../utils');
 const twilioClient = require('../config/twilioClient');
+const { formatPhone } = require('../utils');
+
 
 router.route('/createAccount')
     .get(authorizeUser, (req, res) => {
@@ -21,7 +22,7 @@ router.route('/createAccount')
 
             const { name, email, phone } = req.body;
 
-            user = new User({
+            userInfo = new User({
                 uid: req.user.uid,
                 name: name,
                 email: email || '',
@@ -33,9 +34,26 @@ router.route('/createAccount')
             });
 
             try {
-                await user.save();
+
+                await userInfo.save();
+
+                // Verify email if entered
+                if (email !== undefined && email.length > 0) {
+                    await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
+                        .verifications
+                        .create({ to: email, channel: 'email' });
+                }
+
+                // Verify phone if entered
+                if (phone !== undefined && phone.length > 0) {
+                    await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
+                        .verifications
+                        .create({ to: formatPhone(phone), channel: 'sms' });
+                }
+
                 req.user.hasAccount = true;
                 res.redirect('/dashboard');
+
             } catch (e) {
                 res.render('createAccount', { title: 'Create Account', errorMessage: e.message });
             }
@@ -71,19 +89,16 @@ router.route('/editProfile')
             );
 
             // Update email
+            // Resets verification status and determines if email verification needs to be sent
             if (email !== undefined) {
-                // Reset verification status and determine if email verification needs to be sent
                 if (email.length === 0) {
-
                     // Reset status if email set to empty
                     await User.findOneAndUpdate({ uid: req.user.uid }, { $set: { isEmailVerified: false } });
 
                 } else if (email !== user.email) {
-
                     // Reset status and verify if email is changed
                     await User.findOneAndUpdate({ uid: req.user.uid }, { $set: { isEmailVerified: false } });
-
-                    const verification = await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
+                    await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
                         .verifications
                         .create({ to: email, channel: 'email' });
                 }
@@ -91,24 +106,14 @@ router.route('/editProfile')
 
             // Update phone
             if (phone !== undefined) {
-
                 if (phone.length === 0) {
-
                     await User.findOneAndUpdate({ uid: req.user.uid }, { $set: { isPhoneVerified: false } });
 
                 } else if (phone !== user.phone) {
-
                     await User.findOneAndUpdate({ uid: req.user.uid }, { $set: { isPhoneVerified: false } });
-
-                    try {
-                        const verification = await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
-                            .verifications
-                            .create({ to: formatPhone(phone), channel: 'sms' });
-
-                        console.log(verification);
-                    } catch (e) {
-                        console.log(e);
-                    }
+                    await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
+                        .verifications
+                        .create({ to: formatPhone(phone), channel: 'sms' });
                 }
             }
 
@@ -116,7 +121,6 @@ router.route('/editProfile')
             const user = await User.findOne({ uid: req.user.uid });
             res.render('editProfile', { title: 'Edit Account', user: user, errorMessage: e.message })
         }
-
 
         res.redirect('/profile');
     });
@@ -136,7 +140,6 @@ router.post('/addCrush', authorizeUser, authorizeAccount, async (req, res) => {
             ]);
 
             // TODO: notify both users
-            // TODO: add email account verification
         }
     }
 
