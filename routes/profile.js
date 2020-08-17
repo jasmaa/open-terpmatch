@@ -7,7 +7,6 @@ const { authorizeUser, authorizeAccount, getUserInfo } = require('../middleware'
 const twilioClient = require('../config/twilioClient');
 const { formatPhone } = require('../utils');
 
-
 router.route('/createAccount')
     .get(authorizeUser, (req, res) => {
         if (req.user.hasAccount) {

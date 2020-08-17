@@ -5,10 +5,9 @@ const UMDCASStrategy = require('passport-umd-cas').Strategy;
 const pluralize = require('pluralize');
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
+const verificationRoutes = require('./routes/verification');
 const { authorizeUser, authorizeAccount, getUserInfo } = require('./middleware');
-const { formatPhone, hashProfile } = require('./utils');
-const { User } = require('./config/db');
-const twilioClient = require('./config/twilioClient');
+const { hashProfile } = require('./utils');
 
 require('dotenv').config();
 
@@ -43,6 +42,7 @@ app.locals = {
 // Routes
 app.use('/', authRoutes);
 app.use('/', profileRoutes);
+app.use('/', verificationRoutes);
 
 app.get('/', (req, res) => {
     if (req.user && req.user.hasAccount) {
@@ -66,50 +66,6 @@ app.get('/dashboard', authorizeUser, authorizeAccount, getUserInfo, async (req, 
         user: req.userInfo.user,
         numCrushers: req.userInfo.numCrushers,
     });
-});
-
-app.post('/verifyEmail', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
-
-    const { code } = req.body;
-
-    try {
-        const check = await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
-            .verificationChecks
-            .create({ to: req.userInfo.user.email, code: code });
-
-        if (check.valid) {
-            await User.updateOne({ uid: req.user.uid }, { $set: { isEmailVerified: true } });
-        }
-        
-        // TODO: replace with success acknowledgement
-        res.sendStatus(200);
-
-    } catch (e) {
-        console.log(e)
-        res.sendStatus(500);
-    }
-});
-
-app.post('/verifyPhone', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
-
-    const { code } = req.body;
-
-    try {
-        const check = await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
-            .verificationChecks
-            .create({ to: formatPhone(req.userInfo.user.phone), code: code });
-
-        if (check.valid) {
-            await User.updateOne({ uid: req.user.uid }, { $set: { isPhoneVerified: true } });
-        }
-        
-        // TODO: replace with success acknowledgement
-        res.sendStatus(200);
-
-    } catch (e) {
-        console.log(e)
-        res.sendStatus(500);
-    }
 });
 
 console.log(`Started server at ${PORT}...`)
