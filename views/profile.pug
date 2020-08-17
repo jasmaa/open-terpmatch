@@ -20,3 +20,10 @@ block content
                 span #{user.email}
               else
                 em No email provided
+          .row
+            strong.col-sm-4 Phone:
+            .col-8
+              if user.phone
+                span #{user.phone}
+              else
+                em No phone provided

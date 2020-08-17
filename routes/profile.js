@@ -18,15 +18,17 @@ router.route('/createAccount')
 
         if (!req.user.hasAccount) {
 
-            const { name, email } = req.body;
+            const { name, email, phone } = req.body;
+
             user = new User({
                 uid: req.user.uid,
                 name: name,
                 email: email || '',
+                phone: phone || '',
                 crushes: [],
                 matches: [],
                 isEmailVerified: false,
-                isSMSVerified: false,
+                isPhoneVerified: false,
             });
 
             try {
@@ -58,16 +60,17 @@ router.route('/editProfile')
     })
     .post(authorizeUser, authorizeAccount, async (req, res) => {
 
-        const { email } = req.body;
+        const { email, phone } = req.body;
 
-        if (email !== undefined) {
-            try {
-                const user = await User.findOneAndUpdate(
-                    { uid: req.user.uid },
-                    { $set: { email } },
-                    { runValidators: true, useFindAndModify: false }
-                );
+        try {
+            const user = await User.findOneAndUpdate(
+                { uid: req.user.uid },
+                { $set: { email, phone } },
+                { runValidators: true, useFindAndModify: false }
+            );
 
+            // Update email
+            if (email !== undefined) {
                 // Reset verification status and determine if email verification needs to be sent
                 if (email.length === 0) {
 
@@ -83,11 +86,17 @@ router.route('/editProfile')
                         .verifications
                         .create({ to: email, channel: 'email' });
                 }
-            } catch (e) {
-                const user = await User.findOne({ uid: req.user.uid });
-                res.render('editProfile', { title: 'Edit Account', user: user, errorMessage: e.message })
             }
+
+            if (phone !== undefined) {
+
+            }
+
+        } catch (e) {
+            const user = await User.findOne({ uid: req.user.uid });
+            res.render('editProfile', { title: 'Edit Account', user: user, errorMessage: e.message })
         }
+
 
         res.redirect('/profile');
     });

@@ -2,7 +2,7 @@
 // MongoDB configuration
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { validateEmail } = require('../utils');
+const { validateEmail, validatePhone } = require('../utils');
 
 require('dotenv').config();
 
@@ -32,10 +32,17 @@ const User = mongoose.model('User', new Schema({
             message: 'Invalid email',
         },
     },
+    phone: {
+        type: String,
+        validate: {
+            validator: validatePhone,
+            message: 'Invalid phone',
+        },
+    },
     crushes: [String],
     matches: [String],
     isEmailVerified: Boolean,
-    isSMSVerified: Boolean,
+    isPhoneVerified: Boolean,
 }))
 
 module.exports = {

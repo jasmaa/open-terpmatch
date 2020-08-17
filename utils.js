@@ -13,6 +13,16 @@ function validateEmail(email) {
 }
 
 /**
+ * Checks if phone number is valid
+ * 
+ * @param {*} phone 
+ */
+function validatePhone(phone) {
+    const phoneRegex = /^(\d{3}-\d{3}-\d{4})?$/;
+    return phoneRegex.test(phone);
+}
+
+/**
  * Generates MD5 hash of email for Gravatar
  * 
  * @param {*} email 
@@ -25,5 +35,6 @@ function hashProfile(email) {
 
 module.exports = {
     validateEmail: validateEmail,
+    validatePhone: validatePhone,
     hashProfile: hashProfile,
 }

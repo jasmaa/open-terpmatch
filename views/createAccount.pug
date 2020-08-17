@@ -7,12 +7,15 @@ block content
       if errorMessage
         .alert.alert-danger #{errorMessage}
 
-      form(action='/createAccount', method='POST')
+      form(action="/createAccount", method="POST")
         .form-group
           label Name
-          input.form-control(type='text', name='name', value='', placeholder='Enter full name')
+          input.form-control(type="text", name="name", placeholder="Enter full name")
         .form-group
           label Email (optional)
-          input.form-control(type='email', name='email', value='', placeholder='Enter email address')
+          input.form-control(type="email", name="email", placeholder="Enter email address")
+        .form-group
+          label Phone (optional)
+          input.form-control(type="tel", name="phone", pattern="\\d{3}-\\d{3}-\\d{4}", placeholder="XXX-XXX-XXXX")
         .text-right
-          input.btn.btn-outline-primary(type='submit', value='Submit')
+          input.btn.btn-outline-primary(type="submit", value="Submit")
