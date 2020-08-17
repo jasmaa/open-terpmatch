@@ -1,0 +1,37 @@
+<!-- SendGrid template for email account verification. -->
+<!-- Make sure to change URLs to your domain. -->
+<html>
+
+<head>
+    <style type="text/css">
+        body,
+        p,
+        div {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+    <title></title>
+</head>
+
+<body>
+    <center>
+        <p>
+            <strong>{{twilio_message}}</strong>
+        </p>
+
+        <p>
+            <a href="http://openterpmatch.xyz/verifyEmail?code={{twilio_code}}"
+                style="background-color:#ffbe00; color:#000000; display:inline-block; padding:12px 40px 12px 40px; text-align:center; text-decoration:none;"
+                target="_blank">Verify Email Now</a>
+        </p>
+
+        <span style="font-size: 10px;"><a href="http://openterpmatch.xyz/profile">Email preferences</a></span>
+    </center>
+</body>
+
+</html>

@@ -7,9 +7,9 @@ const { formatPhone } = require('../utils');
 const { User } = require('../config/db');
 const twilioClient = require('../config/twilioClient');
 
-router.post('/verifyEmail', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+router.get('/verifyEmail', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
 
-    const { code } = req.body;
+    const { code } = req.query;
 
     try {
         const check = await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
@@ -30,9 +30,9 @@ router.post('/verifyEmail', authorizeUser, authorizeAccount, getUserInfo, async 
     }
 });
 
-router.post('/verifyPhone', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+router.get('/verifyPhone', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
 
-    const { code } = req.body;
+    const { code } = req.query;
 
     try {
         const check = await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
@@ -51,7 +51,7 @@ router.post('/verifyPhone', authorizeUser, authorizeAccount, getUserInfo, async 
     }
 });
 
-router.post('/resendEmail', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+router.get('/resendEmail', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
 
     const { email, isEmailVerified } = req.userInfo.user;
 
@@ -66,7 +66,7 @@ router.post('/resendEmail', authorizeUser, authorizeAccount, getUserInfo, async 
     }
 });
 
-router.post('/resendPhone', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+router.get('/resendPhone', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
 
     const { phone, isPhoneVerified } = req.userInfo.user;
 

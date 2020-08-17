@@ -27,12 +27,12 @@ block content
                     span #{user.email}
                 else
                   p.mr-3 #{user.email}
-                  form.my-3(action="/verifyEmail", method="POST")
+                  form.my-3(action="/verifyEmail", method="GET")
                     .form-group
                       input.form-control.mr-3(type='text' name='code' placeholder="Enter code" autocomplete="off")
                     .text-right
                       input.btn.btn-primary.mr-3(type='submit' value='Verify')
-                  form.my-3(action="/resendEmail", method="POST")
+                  form.my-3(action="/resendEmail", method="GET")
                     .text-right
                       input.btn.btn-primary.mr-3(type='submit' value='Resend Code')
               else
@@ -49,12 +49,12 @@ block content
                     span #{user.phone}
                 else
                   p.mr-3 #{user.phone}
-                  form.my-3(action="/verifyPhone", method="POST")
+                  form.my-3(action="/verifyPhone", method="GET")
                     .form-group
                       input.form-control.mr-3(type='text' name='code' placeholder="Enter code" autocomplete="off")
                     .text-right
                       input.btn.btn-primary.mr-3(type='submit' value='Verify')
-                  form.my-3(action="/resendPhone", method="POST")
+                  form.my-3(action="/resendPhone", method="GET")
                     .text-right
                       input.btn.btn-primary.mr-3(type='submit' value='Resend Code')
               else
