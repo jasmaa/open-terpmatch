@@ -4,8 +4,8 @@ const crypto = require('crypto');
 
 /**
  * Checks if email is valid
- * 
- * @param {*} email 
+ *
+ * @param {*} email
  */
 function validateEmail(email) {
     const emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
@@ -14,8 +14,8 @@ function validateEmail(email) {
 
 /**
  * Checks if phone number is valid
- * 
- * @param {*} phone 
+ *
+ * @param {*} phone
  */
 function validatePhone(phone) {
     const phoneRegex = /^(\d{10})?$/;
@@ -24,22 +24,21 @@ function validatePhone(phone) {
 
 /**
  * Formats phone number
- * 
- * @param {*} phone 
+ *
+ * @param {*} phone
  */
 function formatPhone(phone) {
     if (phone) {
         // assume US
         return `+1${phone}`;
-    } else {
-        return phone;
     }
+    return phone;
 }
 
 /**
  * Generates MD5 hash of email for Gravatar
- * 
- * @param {*} email 
+ *
+ * @param {*} email
  */
 function hashProfile(email) {
     return crypto.createHash('md5')
@@ -48,8 +47,8 @@ function hashProfile(email) {
 }
 
 module.exports = {
-    validateEmail: validateEmail,
-    validatePhone: validatePhone,
-    formatPhone: formatPhone,
-    hashProfile: hashProfile,
-}
+    validateEmail,
+    validatePhone,
+    formatPhone,
+    hashProfile,
+};

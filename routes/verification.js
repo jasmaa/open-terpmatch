@@ -1,6 +1,7 @@
 // verification.js
 // Verification
 const express = require('express');
+
 const router = express.Router();
 const { authorizeUser, authorizeAccount, getUserInfo } = require('../middleware');
 const { formatPhone } = require('../utils');
@@ -8,36 +9,33 @@ const { User } = require('../config/db');
 const twilioClient = require('../config/twilioClient');
 
 router.get('/verifyEmail', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
-
     const { code } = req.query;
 
     try {
         const check = await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
             .verificationChecks
-            .create({ to: req.userInfo.user.email, code: code });
+            .create({ to: req.userInfo.user.email, code });
 
         if (check.valid) {
             await User.updateOne({ uid: req.user.uid }, { $set: { isEmailVerified: true } });
-            //req.userInfo.user.isEmailVerified = true;
-            //res.render('profile', { title: 'Profile', user: req.userInfo.user, successMessages: ['Sucessfully verified email!'] });
+            // req.userInfo.user.isEmailVerified = true;
+            // res.render('profile', { title: 'Profile', user: req.userInfo.user, successMessages: ['Sucessfully verified email!'] });
             res.redirect('/profile');
         } else {
             res.render('profile', { title: 'Profile', user: req.userInfo.user, errorMessages: ['Could not verify email'] });
         }
-
     } catch (e) {
         res.render('profile', { title: 'Profile', user: req.userInfo.user, errorMessages: ['Could not verify email'] });
     }
 });
 
 router.get('/verifyPhone', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
-
     const { code } = req.query;
 
     try {
         const check = await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
             .verificationChecks
-            .create({ to: formatPhone(req.userInfo.user.phone), code: code });
+            .create({ to: formatPhone(req.userInfo.user.phone), code });
 
         if (check.valid) {
             await User.updateOne({ uid: req.user.uid }, { $set: { isPhoneVerified: true } });
@@ -45,14 +43,12 @@ router.get('/verifyPhone', authorizeUser, authorizeAccount, getUserInfo, async (
         } else {
             res.render('profile', { title: 'Profile', user: req.userInfo.user, errorMessages: ['Could not verify phone'] });
         }
-
     } catch (e) {
         res.render('profile', { title: 'Profile', user: req.userInfo.user, errorMessages: ['Could not verify phone'] });
     }
 });
 
 router.get('/resendEmail', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
-
     const { email, isEmailVerified } = req.userInfo.user;
 
     if (email && !isEmailVerified) {
@@ -67,7 +63,6 @@ router.get('/resendEmail', authorizeUser, authorizeAccount, getUserInfo, async (
 });
 
 router.get('/resendPhone', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
-
     const { phone, isPhoneVerified } = req.userInfo.user;
 
     if (phone && !isPhoneVerified) {

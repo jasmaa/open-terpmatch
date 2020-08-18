@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "node ./server.js",
-    "pretest": "eslint --ignore-path .gitignore ."
+    "pretest": "eslint ."
   },
   "engines": {
     "node": "10.15.3"

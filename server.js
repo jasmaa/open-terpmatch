@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 
 const express = require('express');
@@ -33,14 +32,15 @@ const app = express();
 // Middleware
 app.use(express.static('public'));
 app.use(require('express-session')({ secret: SECRET_KEY, resave: true, saveUninitialized: true }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'pug');
 app.locals = {
-    pluralize: pluralize,
-    hashProfile: hashProfile
-}
+    pluralize,
+    hashProfile,
+};
 
 // Routes
 app.use('/', authRoutes);
@@ -81,7 +81,6 @@ app.route('/settings')
         });
     })
     .post(authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
-
         const { isEmailNotifyOn, isPhoneNotifyOn } = req.body;
 
         const user = await User.findOneAndUpdate(
@@ -90,18 +89,18 @@ app.route('/settings')
                 $set: {
                     isEmailNotifyOn: !!isEmailNotifyOn,
                     isPhoneNotifyOn: !!isPhoneNotifyOn,
-                }
+                },
             },
-            { new: true, useFindAndModify: false }
+            { new: true, useFindAndModify: false },
         );
 
         res.render('settings', {
             title: 'Settings',
-            user: user,
+            user,
             numCrushers: req.userInfo.numCrushers,
             successMessages: ['Successfully updated settings!'],
         });
     });
 
-console.log(`Started server at ${PORT}...`)
+console.log(`Started server at ${PORT}...`);
 app.listen(PORT);
