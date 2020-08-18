@@ -2,14 +2,14 @@
 // Endpoints for modifying crushes
 const express = require('express');
 const { User } = require('../config/db');
-const { authorizeUser, authorizeAccount } = require('../middleware');
+const { authorizeCAS, authorizeAccount } = require('../middleware');
 const Notifier = require('../config/notifier');
 
 const router = express.Router();
 
 const notifier = new Notifier();
 
-router.post('/addCrush', authorizeUser, authorizeAccount, async (req, res) => {
+router.post('/addCrush', authorizeCAS, authorizeAccount, async (req, res) => {
     const { crushUID } = req.body;
     if (crushUID && crushUID.length > 0 && crushUID !== req.user.uid) {
         const user = await User.findOneAndUpdate(
@@ -35,7 +35,7 @@ router.post('/addCrush', authorizeUser, authorizeAccount, async (req, res) => {
     res.redirect('/');
 });
 
-router.post('/deleteCrush', authorizeUser, authorizeAccount, async (req, res) => {
+router.post('/deleteCrush', authorizeCAS, authorizeAccount, async (req, res) => {
     const { crushUID } = req.body;
     await User.updateOne({ uid: req.user.uid }, { $pull: { crushes: crushUID } });
 

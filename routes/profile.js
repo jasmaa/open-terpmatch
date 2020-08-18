@@ -2,21 +2,21 @@
 // Profile management
 const express = require('express');
 const { User } = require('../config/db');
-const { authorizeUser, authorizeAccount, getUserInfo } = require('../middleware');
+const { authorizeCAS, authorizeAccount, getUserInfo } = require('../middleware');
 const twilioClient = require('../config/twilioClient');
 const { formatPhone } = require('../utils');
 
 const router = express.Router();
 
 router.route('/createAccount')
-    .get(authorizeUser, (req, res) => {
+    .get(authorizeCAS, (req, res) => {
         if (req.user.hasAccount) {
             res.redirect('/');
         } else {
             res.render('createAccount', { title: 'Create Account' });
         }
     })
-    .post(authorizeUser, async (req, res) => {
+    .post(authorizeCAS, async (req, res) => {
         if (!req.user.hasAccount) {
             const { name, email, phone } = req.body;
 
@@ -53,7 +53,7 @@ router.route('/createAccount')
     });
 
 router.route('/profile')
-    .get(authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+    .get(authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
         res.render('profile', {
             title: 'Profile',
             user: req.userInfo.user,
@@ -62,14 +62,14 @@ router.route('/profile')
     });
 
 router.route('/editProfile')
-    .get(authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+    .get(authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
         res.render('editProfile', {
             title: 'Edit Profile',
             user: req.userInfo.user,
             numCrushers: req.userInfo.numCrushers,
         });
     })
-    .post(authorizeUser, authorizeAccount, async (req, res) => {
+    .post(authorizeCAS, authorizeAccount, async (req, res) => {
         const { email, phone } = req.body;
 
         try {
@@ -129,7 +129,7 @@ router.route('/editProfile')
         res.redirect('/profile');
     });
 
-router.post('/deleteProfile', authorizeUser, authorizeAccount, async (req, res) => {
+router.post('/deleteProfile', authorizeCAS, authorizeAccount, async (req, res) => {
     // Remove from all crush lists
     await User.updateMany(
         { crushes: req.user.uid },
