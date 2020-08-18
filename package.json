@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "start": "node ./server.js",
-    "pretest": "node_modules/.bin/eslint .",
+    "start": "node ./src/server.js",
+    "pretest": "node_modules/.bin/eslint src",
     "test": "node_modules/.bin/jest"
   },
   "engines": {

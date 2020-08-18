@@ -1,4 +1,4 @@
-const { validateEmail, validatePhone, formatPhone } = require('../utils');
+const { validateEmail, validatePhone, formatPhone } = require('../src/utils');
 
 describe('Email validator', () => {
     it('Declares email valid', () => {
