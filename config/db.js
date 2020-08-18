@@ -1,7 +1,8 @@
 // db.js
 // MongoDB configuration
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
+const { Schema } = mongoose;
 const { validateEmail, validatePhone } = require('../utils');
 
 require('dotenv').config();
@@ -12,7 +13,7 @@ const connStr = process.env.NODE_ENV === 'production'
 
 mongoose.connect(connStr, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
 });
 
 const User = mongoose.model('User', new Schema({
@@ -47,8 +48,8 @@ const User = mongoose.model('User', new Schema({
     isPhoneVerified: { type: Boolean, default: false },
     isEmailNotifyOn: { type: Boolean, default: true },
     isPhoneNotifyOn: { type: Boolean, default: true },
-}))
+}));
 
 module.exports = {
-    User: User,
-}
+    User,
+};

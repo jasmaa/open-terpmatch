@@ -1,5 +1,5 @@
-const twilioClient = require('./twilioClient');
 const sgMail = require('@sendgrid/mail');
+const twilioClient = require('./twilioClient');
 
 require('dotenv').config();
 
@@ -16,9 +16,9 @@ class Notifier {
 
     /**
      * Notifies both users on match
-     * 
-     * @param {*} user 
-     * @param {*} crushUser 
+     *
+     * @param {*} user
+     * @param {*} crushUser
      */
     async notifyMatchBoth(user, crushUser) {
         await Promise.all([
@@ -29,12 +29,11 @@ class Notifier {
 
     /**
      * Notifies user of crush user
-     * 
-     * @param {*} user 
-     * @param {*} crushUser 
+     *
+     * @param {*} user
+     * @param {*} crushUser
      */
     async notifyMatch(user, crushUser) {
-
         const msg = `You've have matched with ${crushUser.name}!`;
 
         // Notify via email
