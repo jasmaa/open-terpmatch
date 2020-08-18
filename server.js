@@ -9,7 +9,7 @@ const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
 const crushRoutes = require('./routes/crush');
 const verificationRoutes = require('./routes/verification');
-const { authorizeUser, authorizeAccount, getUserInfo } = require('./middleware');
+const { authorizeCAS, authorizeAccount, getUserInfo } = require('./middleware');
 const { hashProfile } = require('./utils');
 
 const { User } = require('./config/db');
@@ -65,7 +65,7 @@ app.get('/about', getUserInfo, (req, res) => {
     });
 });
 
-app.get('/dashboard', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+app.get('/dashboard', authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
     res.render('dashboard', {
         title: 'Dashboard',
         user: req.userInfo.user,
@@ -74,14 +74,14 @@ app.get('/dashboard', authorizeUser, authorizeAccount, getUserInfo, async (req, 
 });
 
 app.route('/settings')
-    .get(authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+    .get(authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
         res.render('settings', {
             title: 'Settings',
             user: req.userInfo.user,
             numCrushers: req.userInfo.numCrushers,
         });
     })
-    .post(authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+    .post(authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
         const { isEmailNotifyOn, isPhoneNotifyOn } = req.body;
 
         const user = await User.findOneAndUpdate(
