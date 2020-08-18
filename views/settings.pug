@@ -1,0 +1,17 @@
+extends base.pug
+
+block content
+  .card.my-5
+    .card-body
+
+      h1 Settings
+
+      form.my-4(action='/settings', method='POST')
+        .form-check
+          input.form-check-input(type="checkbox" name="isEmailNotifyOn" checked=user.isEmailNotifyOn)
+          label.form-check-label Notify via email
+        .form-check
+          input.form-check-input(type="checkbox" name="isPhoneNotifyOn" checked=user.isPhoneNotifyOn)
+          label.form-check-label Notify via SMS
+        .text-right
+          input.btn.btn-outline-primary.mr-3(type='submit' value='Save')

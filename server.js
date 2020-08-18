@@ -12,6 +12,7 @@ const crushRoutes = require('./routes/crush');
 const verificationRoutes = require('./routes/verification');
 const { authorizeUser, authorizeAccount, getUserInfo } = require('./middleware');
 const { hashProfile } = require('./utils');
+const { User } = require('./config/db');
 
 const PORT = process.env.PORT || 3000;
 const SECRET_KEY = process.env.SECRET_KEY || 'keyboard cat';
@@ -70,6 +71,37 @@ app.get('/dashboard', authorizeUser, authorizeAccount, getUserInfo, async (req, 
         numCrushers: req.userInfo.numCrushers,
     });
 });
+
+app.route('/settings')
+    .get(authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+        res.render('settings', {
+            title: 'Settings',
+            user: req.userInfo.user,
+            numCrushers: req.userInfo.numCrushers,
+        });
+    })
+    .post(authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+
+        const { isEmailNotifyOn, isPhoneNotifyOn } = req.body;
+
+        const user = await User.findOneAndUpdate(
+            { uid: req.user.uid },
+            {
+                $set: {
+                    isEmailNotifyOn: !!isEmailNotifyOn,
+                    isPhoneNotifyOn: !!isPhoneNotifyOn,
+                }
+            },
+            { new: true, useFindAndModify: false }
+        );
+
+        res.render('settings', {
+            title: 'Settings',
+            user: user,
+            numCrushers: req.userInfo.numCrushers,
+            successMessages: ['Successfully updated settings!'],
+        });
+    });
 
 console.log(`Started server at ${PORT}...`)
 app.listen(PORT);

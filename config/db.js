@@ -31,6 +31,7 @@ const User = mongoose.model('User', new Schema({
             validator: validateEmail,
             message: 'Invalid email',
         },
+        default: '',
     },
     phone: {
         type: String,
@@ -38,11 +39,14 @@ const User = mongoose.model('User', new Schema({
             validator: validatePhone,
             message: 'Invalid phone',
         },
+        default: '',
     },
-    crushes: [String],
-    matches: [String],
-    isEmailVerified: Boolean,
-    isPhoneVerified: Boolean,
+    crushes: { type: [String], default: [] },
+    matches: { type: [String], default: [] },
+    isEmailVerified: { type: Boolean, default: false },
+    isPhoneVerified: { type: Boolean, default: false },
+    isEmailNotifyOn: { type: Boolean, default: true },
+    isPhoneNotifyOn: { type: Boolean, default: true },
 }))
 
 module.exports = {

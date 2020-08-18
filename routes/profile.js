@@ -24,12 +24,8 @@ router.route('/createAccount')
             userInfo = new User({
                 uid: req.user.uid,
                 name: name,
-                email: email || '',
-                phone: phone || '',
-                crushes: [],
-                matches: [],
-                isEmailVerified: false,
-                isPhoneVerified: false,
+                email: email,
+                phone: phone,
             });
 
             try {

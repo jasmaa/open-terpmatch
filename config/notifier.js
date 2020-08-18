@@ -38,7 +38,7 @@ class Notifier {
         const msg = `You've have matched with ${crushUser.name}!`;
 
         // Notify via email
-        if (user.isEmailVerified) {
+        if (user.isEmailVerified && user.isEmailNotifyOn) {
             await sgMail.send({
                 to: user.email,
                 from: this.sgSender,
@@ -48,7 +48,7 @@ class Notifier {
         }
 
         // Notify via SMS
-        if (user.isPhoneVerified) {
+        if (user.isPhoneVerified && user.isPhoneNotifyOn) {
             await twilioClient.messages
                 .create({
                     to: user.phone,
