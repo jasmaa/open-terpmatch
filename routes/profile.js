@@ -20,7 +20,7 @@ router.route('/createAccount')
         if (!req.user.hasAccount) {
             const { name, email, phone } = req.body;
 
-            userInfo = new User({
+            const userInfo = new User({
                 uid: req.user.uid,
                 name,
                 email,
@@ -84,10 +84,18 @@ router.route('/editProfile')
             if (email !== undefined) {
                 if (email.length === 0) {
                     // Reset status if email set to empty
-                    await User.findOneAndUpdate({ uid: req.user.uid }, { $set: { isEmailVerified: false } });
+                    await User.findOneAndUpdate(
+                        { uid: req.user.uid },
+                        { $set: { isEmailVerified: false } },
+                        { useFindAndModify: false },
+                    );
                 } else if (email !== user.email) {
                     // Reset status and verify if email is changed
-                    await User.findOneAndUpdate({ uid: req.user.uid }, { $set: { isEmailVerified: false } });
+                    await User.findOneAndUpdate(
+                        { uid: req.user.uid },
+                        { $set: { isEmailVerified: false } },
+                        { useFindAndModify: false },
+                    );
                     await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
                         .verifications
                         .create({ to: email, channel: 'email' });
@@ -97,9 +105,17 @@ router.route('/editProfile')
             // Update phone
             if (phone !== undefined) {
                 if (phone.length === 0) {
-                    await User.findOneAndUpdate({ uid: req.user.uid }, { $set: { isPhoneVerified: false } });
+                    await User.findOneAndUpdate(
+                        { uid: req.user.uid },
+                        { $set: { isPhoneVerified: false } },
+                        { useFindAndModify: false },
+                    );
                 } else if (phone !== user.phone) {
-                    await User.findOneAndUpdate({ uid: req.user.uid }, { $set: { isPhoneVerified: false } });
+                    await User.findOneAndUpdate(
+                        { uid: req.user.uid },
+                        { $set: { isPhoneVerified: false } },
+                        { useFindAndModify: false },
+                    );
                     await twilioClient.verify.services(process.env.TWILIO_VERIFY_SERVICE)
                         .verifications
                         .create({ to: formatPhone(phone), channel: 'sms' });

@@ -18,8 +18,14 @@ router.get('/verifyEmail', authorizeUser, authorizeAccount, getUserInfo, async (
 
         if (check.valid) {
             await User.updateOne({ uid: req.user.uid }, { $set: { isEmailVerified: true } });
-            // req.userInfo.user.isEmailVerified = true;
-            // res.render('profile', { title: 'Profile', user: req.userInfo.user, successMessages: ['Sucessfully verified email!'] });
+            /*
+            req.userInfo.user.isEmailVerified = true;
+            res.render('profile', {
+                title: 'Profile',
+                user: req.userInfo.user,
+                successMessages: ['Sucessfully verified email!'],
+            });
+            */
             res.redirect('/profile');
         } else {
             res.render('profile', { title: 'Profile', user: req.userInfo.user, errorMessages: ['Could not verify email'] });

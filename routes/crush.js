@@ -20,7 +20,11 @@ router.post('/addCrush', authorizeUser, authorizeAccount, async (req, res) => {
 
         // Matches and notifies both users on mutual crush
         const crushUser = await User.findOne({ uid: crushUID });
-        if (crushUser && crushUser.crushes.includes(req.user.uid) && !crushUser.matches.includes(req.user.uid)) {
+        if (
+            crushUser
+            && crushUser.crushes.includes(req.user.uid)
+            && !crushUser.matches.includes(req.user.uid)
+        ) {
             await User.updateOne({ uid: req.user.uid }, { $addToSet: { matches: crushUID } });
             await User.updateOne({ uid: crushUID }, { $addToSet: { matches: req.user.uid } });
 
