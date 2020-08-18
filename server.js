@@ -8,6 +8,7 @@ const UMDCASStrategy = require('passport-umd-cas').Strategy;
 const pluralize = require('pluralize');
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
+const crushRoutes = require('./routes/crush');
 const verificationRoutes = require('./routes/verification');
 const { authorizeUser, authorizeAccount, getUserInfo } = require('./middleware');
 const { hashProfile } = require('./utils');
@@ -43,6 +44,7 @@ app.locals = {
 // Routes
 app.use('/', authRoutes);
 app.use('/', profileRoutes);
+app.use('/', crushRoutes);
 app.use('/', verificationRoutes);
 
 app.get('/', (req, res) => {

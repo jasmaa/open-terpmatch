@@ -59,3 +59,7 @@ block content
                       input.btn.btn-primary.mr-3(type='submit' value='Resend Code')
               else
                 em No phone provided
+        
+        form.my-3(action="/deleteProfile", method="POST", onsubmit="return confirm('Are you sure you want to delete your account?');")
+          .text-right
+            input.btn.btn-danger(type='submit' value='Delete Account')
