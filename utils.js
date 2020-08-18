@@ -18,7 +18,7 @@ function validateEmail(email) {
  * @param {*} phone 
  */
 function validatePhone(phone) {
-    const phoneRegex = /^(\d{3}-\d{3}-\d{4})?$/;
+    const phoneRegex = /^(\d{10})?$/;
     return phoneRegex.test(phone);
 }
 
@@ -29,9 +29,8 @@ function validatePhone(phone) {
  */
 function formatPhone(phone) {
     if (phone) {
-        const codes = phone.split('-');
         // assume US
-        return `+1${codes.join('')}`;
+        return `+1${phone}`;
     } else {
         return phone;
     }

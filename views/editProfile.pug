@@ -10,10 +10,10 @@ block content
       form(action='/editProfile', method='POST')
         .form-group
           label Email (optional)
-          input.form-control(type='email' name='email' value=user.email placeholder="Enter email address")
+          input.form-control(type='email' name='email' value=user.email placeholder="user@example.com")
         .form-group
           label Phone (optional)
-          input.form-control(type="tel", name="phone", pattern="\\d{3}-\\d{3}-\\d{4}", value=user.phone, placeholder="XXX-XXX-XXXX")
+          input.form-control(type="tel", name="phone", pattern="\\d{10}", value=user.phone, placeholder="0123456789")
         .text-right
           input.btn.btn-outline-primary.mr-3(type='submit' value='Save')
           a.btn.btn-outline-secondary(href='/profile') Cancel
