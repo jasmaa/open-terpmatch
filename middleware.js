@@ -51,7 +51,7 @@ const getUserInfo = async (req, res, next) => {
 };
 
 module.exports = {
-    authorizeUser: authorizeCAS,
+    authorizeCAS,
     authorizeAccount,
     getUserInfo,
 };

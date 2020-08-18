@@ -1,14 +1,14 @@
 // verification.js
 // Verification
 const express = require('express');
-const { authorizeUser, authorizeAccount, getUserInfo } = require('../middleware');
+const { authorizeCAS, authorizeAccount, getUserInfo } = require('../middleware');
 const { formatPhone } = require('../utils');
 const { User } = require('../config/db');
 const twilioClient = require('../config/twilioClient');
 
 const router = express.Router();
 
-router.get('/verifyEmail', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+router.get('/verifyEmail', authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
     const { code } = req.query;
 
     try {
@@ -35,7 +35,7 @@ router.get('/verifyEmail', authorizeUser, authorizeAccount, getUserInfo, async (
     }
 });
 
-router.get('/verifyPhone', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+router.get('/verifyPhone', authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
     const { code } = req.query;
 
     try {
@@ -54,7 +54,7 @@ router.get('/verifyPhone', authorizeUser, authorizeAccount, getUserInfo, async (
     }
 });
 
-router.get('/resendEmail', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+router.get('/resendEmail', authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
     const { email, isEmailVerified } = req.userInfo.user;
 
     if (email && !isEmailVerified) {
@@ -68,7 +68,7 @@ router.get('/resendEmail', authorizeUser, authorizeAccount, getUserInfo, async (
     }
 });
 
-router.get('/resendPhone', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
+router.get('/resendPhone', authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
     const { phone, isPhoneVerified } = req.userInfo.user;
 
     if (phone && !isPhoneVerified) {
