@@ -11,6 +11,7 @@ const crushRoutes = require('./routes/crush');
 const verificationRoutes = require('./routes/verification');
 const { authorizeUser, authorizeAccount, getUserInfo } = require('./middleware');
 const { hashProfile } = require('./utils');
+
 const { User } = require('./config/db');
 
 const PORT = process.env.PORT || 3000;

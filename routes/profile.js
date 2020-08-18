@@ -1,12 +1,12 @@
 // profile.js
 // Profile management
 const express = require('express');
-
-const router = express.Router();
 const { User } = require('../config/db');
 const { authorizeUser, authorizeAccount, getUserInfo } = require('../middleware');
 const twilioClient = require('../config/twilioClient');
 const { formatPhone } = require('../utils');
+
+const router = express.Router();
 
 router.route('/createAccount')
     .get(authorizeUser, (req, res) => {

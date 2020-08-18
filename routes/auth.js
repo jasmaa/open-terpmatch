@@ -1,10 +1,10 @@
 // auth.js
 // User authentication
 const express = require('express');
-
-const router = express.Router();
 const passport = require('passport');
 const { User } = require('../config/db');
+
+const router = express.Router();
 
 router.get('/umd/login', passport.authenticate('umd-cas'));
 

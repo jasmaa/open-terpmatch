@@ -1,12 +1,12 @@
 // verification.js
 // Verification
 const express = require('express');
-
-const router = express.Router();
 const { authorizeUser, authorizeAccount, getUserInfo } = require('../middleware');
 const { formatPhone } = require('../utils');
 const { User } = require('../config/db');
 const twilioClient = require('../config/twilioClient');
+
+const router = express.Router();
 
 router.get('/verifyEmail', authorizeUser, authorizeAccount, getUserInfo, async (req, res) => {
     const { code } = req.query;

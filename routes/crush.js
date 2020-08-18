@@ -1,11 +1,11 @@
 // crush.js
 // Endpoints for modifying crushes
 const express = require('express');
-
-const router = express.Router();
 const { User } = require('../config/db');
 const { authorizeUser, authorizeAccount } = require('../middleware');
 const Notifier = require('../config/notifier');
+
+const router = express.Router();
 
 const notifier = new Notifier();
 
