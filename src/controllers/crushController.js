@@ -1,15 +1,18 @@
-// crush.js
-// Endpoints for modifying crushes
-const express = require('express');
-const { User } = require('../config/db');
-const { authorizeCAS, authorizeAccount } = require('../middleware');
-const Notifier = require('../config/notifier');
+// crushController.js
+// Handlers for modifying crushes
 
-const router = express.Router();
+const User = require('../models/user');
+const Notifier = require('../config/notifier');
 
 const notifier = new Notifier();
 
-router.post('/addCrush', authorizeCAS, authorizeAccount, async (req, res) => {
+/**
+ * Adds crush to crush list
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+async function addCrush(req, res) {
     const { crushUID } = req.body;
     if (crushUID && crushUID.length > 0 && crushUID !== req.user.uid) {
         const user = await User.findOneAndUpdate(
@@ -33,9 +36,15 @@ router.post('/addCrush', authorizeCAS, authorizeAccount, async (req, res) => {
     }
 
     res.redirect('/');
-});
+}
 
-router.post('/deleteCrush', authorizeCAS, authorizeAccount, async (req, res) => {
+/**
+ * Deletes crush from crush list
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+async function deleteCrush(req, res) {
     const { crushUID } = req.body;
     await User.updateOne({ uid: req.user.uid }, { $pull: { crushes: crushUID } });
 
@@ -47,6 +56,6 @@ router.post('/deleteCrush', authorizeCAS, authorizeAccount, async (req, res) => 
     }
 
     res.redirect('/');
-});
+}
 
-module.exports = router;
+module.exports = { addCrush, deleteCrush };

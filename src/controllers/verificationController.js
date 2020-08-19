@@ -1,14 +1,17 @@
-// verification.js
-// Verification
-const express = require('express');
-const { authorizeCAS, authorizeAccount, getUserInfo } = require('../middleware');
+// verificationController.js
+// Handlers for verifying email and phone number
+
 const { formatPhone } = require('../utils');
-const { User } = require('../config/db');
+const User = require('../models/user');
 const twilioClient = require('../config/twilioClient');
 
-const router = express.Router();
-
-router.get('/verifyEmail', authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
+/**
+ * Verifies email
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+async function verifyEmail(req, res) {
     const { code } = req.query;
 
     try {
@@ -33,9 +36,15 @@ router.get('/verifyEmail', authorizeCAS, authorizeAccount, getUserInfo, async (r
     } catch (e) {
         res.render('profile', { title: 'Profile', user: req.userInfo.user, errorMessages: ['Could not verify email'] });
     }
-});
+}
 
-router.get('/verifyPhone', authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
+/**
+ * Verifies phone number
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+async function verifyPhone(req, res) {
     const { code } = req.query;
 
     try {
@@ -52,9 +61,15 @@ router.get('/verifyPhone', authorizeCAS, authorizeAccount, getUserInfo, async (r
     } catch (e) {
         res.render('profile', { title: 'Profile', user: req.userInfo.user, errorMessages: ['Could not verify phone'] });
     }
-});
+}
 
-router.get('/resendEmail', authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
+/**
+ * Resends email verification code
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+async function resendEmail(req, res) {
     const { email, isEmailVerified } = req.userInfo.user;
 
     if (email && !isEmailVerified) {
@@ -66,9 +81,15 @@ router.get('/resendEmail', authorizeCAS, authorizeAccount, getUserInfo, async (r
     } else {
         res.render('profile', { title: 'Profile', user: req.userInfo.user, errorMessages: ['Could not resend code'] });
     }
-});
+}
 
-router.get('/resendPhone', authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
+/**
+ * Resends phone verification code
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+async function resendPhone(req, res) {
     const { phone, isPhoneVerified } = req.userInfo.user;
 
     if (phone && !isPhoneVerified) {
@@ -80,6 +101,11 @@ router.get('/resendPhone', authorizeCAS, authorizeAccount, getUserInfo, async (r
     } else {
         res.render('profile', { title: 'Profile', user: req.userInfo.user, errorMessages: ['Could not resend code'] });
     }
-});
+}
 
-module.exports = router;
+module.exports = {
+    verifyEmail,
+    verifyPhone,
+    resendEmail,
+    resendPhone,
+};

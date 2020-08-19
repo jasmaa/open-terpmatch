@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "start": "node ./server.js",
-    "pretest": "node_modules/.bin/eslint ."
+    "start": "node ./src/server.js",
+    "pretest": "node_modules/.bin/eslint src",
+    "test": "node_modules/.bin/jest"
   },
   "engines": {
     "node": "10.15.3"
@@ -27,6 +28,8 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-react": "^7.20.6",
-    "eslint-plugin-react-hooks": "^4.1.0"
+    "eslint-plugin-react-hooks": "^4.1.0",
+    "jest": "^26.4.0",
+    "mockingoose": "^2.13.2"
   }
 }
