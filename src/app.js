@@ -8,12 +8,12 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const UMDCASStrategy = require('passport-umd-cas').Strategy;
 const pluralize = require('pluralize');
-const authRoutes = require('./routes/auth');
-const profileRoutes = require('./routes/profile');
-const crushRoutes = require('./routes/crush');
-const verificationRoutes = require('./routes/verification');
 const { authorizeCAS, authorizeAccount, getUserInfo } = require('./middleware');
 const { hashProfile } = require('./utils');
+const authController = require('./controllers/authController');
+const crushController = require('./controllers/crushController');
+const profileController = require('./controllers/profileController');
+const verificationController = require('./controllers/verificationController');
 
 const { User } = require('./config/db');
 
@@ -45,20 +45,33 @@ app.locals = {
     hashProfile,
 };
 
-// Routes
-app.use('/', authRoutes);
-app.use('/', profileRoutes);
-app.use('/', crushRoutes);
-app.use('/', verificationRoutes);
+// Auth routes
+app.get('/umd/login', passport.authenticate('umd-cas'));
+app.get('/umd/return', passport.authenticate('umd-cas'), authController.loginReturn);
+app.get('/logout', authController.logout);
 
-app.get('/', (req, res) => {
-    if (req.user && req.user.hasAccount) {
-        res.redirect('/dashboard');
-    } else {
-        res.render('home', { title: 'Home' });
-    }
-});
+// Profile routes
+app.route('/createAccount')
+    .get(authorizeCAS, profileController.createAccountGet)
+    .post(authorizeCAS, profileController.createAccountPost);
+app.route('/profile')
+    .get(authorizeCAS, authorizeAccount, getUserInfo, profileController.profile);
+app.route('/editProfile')
+    .get(authorizeCAS, authorizeAccount, getUserInfo, profileController.editProfileGet)
+    .post(authorizeCAS, authorizeAccount, profileController.editProfilePost);
+app.post('/deleteProfile', authorizeCAS, authorizeAccount, profileController.deleteProfile);
 
+// Crush routes
+app.post('/addCrush', authorizeCAS, authorizeAccount, crushController.addCrush);
+app.post('/deleteCrush', authorizeCAS, authorizeAccount, crushController.deleteCrush);
+
+// Verification routes
+app.get('/verifyEmail', authorizeCAS, authorizeAccount, getUserInfo, verificationController.verifyEmail);
+app.get('/verifyPhone', authorizeCAS, authorizeAccount, getUserInfo, verificationController.verifyPhone);
+app.get('/resendEmail', authorizeCAS, authorizeAccount, getUserInfo, verificationController.resendEmail);
+app.get('/resendPhone', authorizeCAS, authorizeAccount, getUserInfo, verificationController.resendPhone);
+
+// About
 app.get('/about', getUserInfo, (req, res) => {
     res.render('about', {
         title: 'About',
@@ -67,6 +80,7 @@ app.get('/about', getUserInfo, (req, res) => {
     });
 });
 
+// Dashboard
 app.get('/dashboard', authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
     res.render('dashboard', {
         title: 'Dashboard',
@@ -75,6 +89,16 @@ app.get('/dashboard', authorizeCAS, authorizeAccount, getUserInfo, async (req, r
     });
 });
 
+// Home
+app.get('/', (req, res) => {
+    if (req.user && req.user.hasAccount) {
+        res.redirect('/dashboard');
+    } else {
+        res.render('home', { title: 'Home' });
+    }
+});
+
+// Settings
 app.route('/settings')
     .get(authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
         res.render('settings', {
