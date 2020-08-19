@@ -3,6 +3,8 @@ const User = require('../src/models/user');
 const crushController = require('../src/controllers/crushController');
 const { mockResponse, mockRequest } = require('./helpers');
 
+jest.mock('../src/config/notifier.js');
+
 beforeEach(() => {
     mockingoose.resetAll();
 });
@@ -50,7 +52,6 @@ describe('Add crush', () => {
         });
         const res = mockResponse();
 
-        // TODO: figure out how to mock notifier
         await crushController.addCrush(req, res);
 
         expect(res.redirect).toHaveBeenCalledWith('/');
@@ -77,7 +78,6 @@ describe('Add crush', () => {
         });
         const res = mockResponse();
 
-        // TODO: figure out how to mock notifier
         await crushController.addCrush(req, res);
 
         expect(res.redirect).toHaveBeenCalledWith('/');
