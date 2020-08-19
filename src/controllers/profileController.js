@@ -1,7 +1,7 @@
 // profileController.js
 // Handlers for profile
 
-const { User } = require('../config/db');
+const User = require('../models/user');
 const twilioClient = require('../config/twilioClient');
 const { formatPhone } = require('../utils');
 

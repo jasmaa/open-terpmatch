@@ -1,7 +1,7 @@
 // authController.js
 // Handlers for CAS authentication
 
-const { User } = require('../config/db');
+const User = require('../models/user');
 
 /**
  * Receives login redirects from CAS

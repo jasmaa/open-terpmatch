@@ -7,6 +7,7 @@ const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const UMDCASStrategy = require('passport-umd-cas').Strategy;
+const mongoose = require('mongoose');
 const pluralize = require('pluralize');
 const { authorizeCAS, authorizeAccount, getUserInfo } = require('./middleware');
 const { hashProfile } = require('./utils');
@@ -14,10 +15,19 @@ const authController = require('./controllers/authController');
 const crushController = require('./controllers/crushController');
 const profileController = require('./controllers/profileController');
 const verificationController = require('./controllers/verificationController');
-
-const { User } = require('./config/db');
+const User = require('./models/user');
 
 const SECRET_KEY = process.env.SECRET_KEY || 'keyboard cat';
+
+// Init db connection
+const connStr = process.env.NODE_ENV === 'production'
+    ? `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`
+    : `mongodb://${process.env.MONGO_HOST}/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`;
+
+mongoose.connect(connStr, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 
 // Passport
 passport.use(new UMDCASStrategy({ callbackURL: '/umd/return' }));

@@ -2,7 +2,7 @@
 // Handlers for verifying email and phone number
 
 const { formatPhone } = require('../utils');
-const { User } = require('../config/db');
+const User = require('../models/user');
 const twilioClient = require('../config/twilioClient');
 
 /**

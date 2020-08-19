@@ -1,6 +1,6 @@
 // middleware.js
 // Middlware functions
-const { User } = require('./config/db');
+const User = require('./models/user');
 
 /**
  * Checks if user is authenticated with CAS

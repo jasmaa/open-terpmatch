@@ -1,7 +1,7 @@
 // crushController.js
 // Handlers for modifying crushes
 
-const { User } = require('../config/db');
+const User = require('../models/user');
 const Notifier = require('../config/notifier');
 
 const notifier = new Notifier();
