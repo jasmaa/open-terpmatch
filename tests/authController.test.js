@@ -34,7 +34,6 @@ describe('Login return', () => {
 
         expect(res.redirect).toHaveBeenCalledWith('/');
     });
-
 });
 
 describe('Logout', () => {

@@ -54,11 +54,13 @@ async function createAccountPost(req, res) {
             }
 
             req.user.hasAccount = true;
-            res.redirect('/dashboard');
         } catch (e) {
             res.render('createAccount', { title: 'Create Account', errorMessages: [e.message] });
+            return;
         }
     }
+
+    res.redirect('/');
 }
 
 /**

@@ -8,7 +8,7 @@ beforeEach(() => {
 });
 
 describe('Add crush', () => {
-    test('Add previously non-matched user as crush with no match', async () => {
+    it('adds previously non-matched user as crush with no match', async () => {
         mockingoose(User)
             .toReturn({
                 uid: 'myUID',
@@ -31,7 +31,7 @@ describe('Add crush', () => {
         expect(res.redirect).toHaveBeenCalledWith('/');
     });
 
-    test('Add previously non-matched user as crush with match', async () => {
+    it('adds previously non-matched user as crush with match', async () => {
         mockingoose(User)
             .toReturn({
                 uid: 'myUID',
@@ -56,7 +56,7 @@ describe('Add crush', () => {
         expect(res.redirect).toHaveBeenCalledWith('/');
     });
 
-    test('Add previously matched user as crush with match', async () => {
+    it('adds previously matched user as crush with match', async () => {
         mockingoose(User)
             .toReturn({
                 uid: 'myUID',
@@ -83,7 +83,7 @@ describe('Add crush', () => {
         expect(res.redirect).toHaveBeenCalledWith('/');
     });
 
-    test("Add empty string as crush", async () => {
+    it("adds empty string as crush", async () => {
         const req = mockRequest({
             user: { uid: 'myUID' },
             body: {
@@ -97,7 +97,7 @@ describe('Add crush', () => {
         expect(res.redirect).toHaveBeenCalledWith('/');
     });
 
-    test("Add self as crush", async () => {
+    it("adds self as crush", async () => {
         const req = mockRequest({
             user: { uid: 'myUID' },
             body: {
@@ -113,7 +113,7 @@ describe('Add crush', () => {
 });
 
 describe('Delete crush', () => {
-    test('Delete previously non-matched user', async () => {
+    it('deletes previously non-matched user', async () => {
         mockingoose(User)
             .toReturn({
                 uid: 'otherUID',
@@ -132,7 +132,7 @@ describe('Delete crush', () => {
         expect(res.redirect).toHaveBeenCalledWith('/');
     });
 
-    test('Delete previously matched user', async () => {
+    it('deletes previously matched user', async () => {
         mockingoose(User)
             .toReturn({
                 uid: 'otherUID',
@@ -153,7 +153,7 @@ describe('Delete crush', () => {
         expect(res.redirect).toHaveBeenCalledWith('/');
     });
 
-    test("Delete empty string", async () => {
+    it("deletes empty string", async () => {
         const req = mockRequest({
             user: { uid: 'myUID' },
             body: {
