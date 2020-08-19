@@ -16,9 +16,9 @@ async function addCrush(req, res) {
     const { crushUID } = req.body;
     if (crushUID && crushUID.length > 0 && crushUID !== req.user.uid) {
         const user = await User.findOneAndUpdate(
-            { uid: req.user.uid },
-            { $addToSet: { crushes: crushUID } },
-            { new: true },
+            { uid: req.user.uid, crushes: { $ne: crushUID } },
+            { $push: { crushes: { $each: [crushUID], $slice: 10 } } },
+            { new: true, useFindAndModify: false },
         );
 
         // Matches and notifies both users on mutual crush
