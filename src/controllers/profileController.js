@@ -152,6 +152,7 @@ async function editProfilePost(req, res) {
     } catch (e) {
         const user = await User.findOne({ uid: req.user.uid });
         res.render('editProfile', { title: 'Edit Account', user, errorMessages: [e.message] });
+        return;
     }
 
     res.redirect('/profile');
