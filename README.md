@@ -1,5 +1,8 @@
 # Open Terpmatch
 
+[![CircleCI](https://img.shields.io/circleci/build/github/jasmaa/open-terpmatch)](https://app.circleci.com/pipelines/github/jasmaa/open-terpmatch)
+[![Codecov](https://img.shields.io/codecov/c/github/jasmaa/open-terpmatch)](https://codecov.io/gh/jasmaa/open-terpmatch)
+
 Open-source anonymous UMD matching
 
 ![Landing page screenshot](docs/screenshot_01.png)
