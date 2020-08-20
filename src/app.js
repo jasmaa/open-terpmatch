@@ -43,6 +43,18 @@ passport.deserializeUser((user, done) => {
 const app = express();
 
 // Middleware
+app.use((req, res, next) => {
+    if (process.env.NODE_ENV === 'production') {
+        if (req.headers['x-forwarded-proto'] !== 'https') {
+            res.redirect(`https://${req.headers.host}${req.url}`);
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
+});
+
 app.use(express.static('public'));
 app.use(require('express-session')({ secret: SECRET_KEY, resave: true, saveUninitialized: true }));
 
