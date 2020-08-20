@@ -95,6 +95,24 @@ nav.navbar {
     }
 }
 
+.feature-text {
+    font-size: 6em;
+}
+@media only screen and (max-width: 800px) {
+    .feature-text {
+        font-size: 4em;
+    }
+}
+
+.feature-sub-text {
+    font-size: 2em;
+}
+@media only screen and (max-width: 800px) {
+    .feature-sub-text {
+        font-size: 1em;
+    }
+}
+
 .feature-img {
     width: 100%;
     min-height: 30em;
