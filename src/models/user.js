@@ -12,6 +12,7 @@ const User = mongoose.model('User', new Schema({
     name: {
         type: String,
         required: true,
+        maxlength: 256,
     },
     email: {
         type: String,
@@ -20,6 +21,7 @@ const User = mongoose.model('User', new Schema({
             message: 'Invalid email',
         },
         default: '',
+        maxlength: 256,
     },
     phone: {
         type: String,
