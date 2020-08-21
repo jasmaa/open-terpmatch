@@ -84,7 +84,7 @@ app.route('/editProfile')
 app.post('/deleteProfile', authorizeCAS, authorizeAccount, profileController.deleteProfile);
 
 // Crush routes
-app.post('/addCrush', authorizeCAS, authorizeAccount, crushController.addCrush);
+app.post('/addCrush', authorizeCAS, authorizeAccount, getUserInfo, crushController.addCrush);
 app.post('/deleteCrush', authorizeCAS, authorizeAccount, crushController.deleteCrush);
 
 // Verification routes

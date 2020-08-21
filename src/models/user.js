@@ -31,7 +31,15 @@ const User = mongoose.model('User', new Schema({
         },
         default: '',
     },
-    crushes: { type: [String], default: [] },
+    crushes: {
+        type: [
+            {
+                type: String,
+                maxlength: 256,
+            },
+        ],
+        default: [],
+    },
     matches: { type: [String], default: [] },
     isEmailVerified: { type: Boolean, default: false },
     isPhoneVerified: { type: Boolean, default: false },
