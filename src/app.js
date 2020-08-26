@@ -102,6 +102,15 @@ app.get('/about', getUserInfo, (req, res) => {
     });
 });
 
+// Privacy
+app.get('/privacy', getUserInfo, (req, res) => {
+    res.render('privacy', {
+        title: 'Privacy Policy',
+        user: req.userInfo.user,
+        numCrushers: req.userInfo.numCrushers,
+    });
+});
+
 // Dashboard
 app.get('/dashboard', authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
     res.render('dashboard', {

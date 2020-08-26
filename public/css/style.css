@@ -3,6 +3,13 @@ body {
     color: white;
 }
 
+a {
+    color: #ffffff;
+}
+a:hover {
+    color: #cccccc;
+}
+
 nav.navbar {
     background-color: #990000;
 }
@@ -158,4 +165,12 @@ nav.navbar {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #333333;
+    color: white;
 }
