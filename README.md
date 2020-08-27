@@ -3,7 +3,7 @@
 [![CircleCI](https://img.shields.io/circleci/build/github/jasmaa/open-terpmatch)](https://app.circleci.com/pipelines/github/jasmaa/open-terpmatch)
 [![Codecov](https://img.shields.io/codecov/c/github/jasmaa/open-terpmatch)](https://codecov.io/gh/jasmaa/open-terpmatch)
 
-Open-source anonymous UMD matching
+Open-source anonymous UMD crushing
 
 ![Landing page screenshot](docs/screenshot_01.png)
 
@@ -14,10 +14,4 @@ allowing anyone in the future to re-deploy this site as well as contribute to it
 
 ## Setup
 
-### Local Development
-    yarn install
-    yarn start
-
-### Deploy to Heroku
-    heroku git:remote <APP_NAME>
-    git push heroku master
+Refer to [setup documentation](docs/SETUP.md) for detailed instructions.
