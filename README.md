@@ -14,10 +14,4 @@ allowing anyone in the future to re-deploy this site as well as contribute to it
 
 ## Setup
 
-### Local Development
-    yarn install
-    yarn start
-
-### Deploy to Heroku
-    heroku git:remote <APP_NAME>
-    git push heroku master
+Refer to [setup documentation](docs/SETUP.md) for detailed instructions.
