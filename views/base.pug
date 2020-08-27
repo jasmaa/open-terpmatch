@@ -12,8 +12,9 @@ html
 
   body
     include includes/navbar.pug
-    block feature
-    .container.h-100(style="min-height: 42em")
-      include includes/messages.pug
-      block content
+    div(style="min-height: 42em")
+      block feature
+      .container.h-100
+        include includes/messages.pug
+        block content
     include includes/footer.pug
