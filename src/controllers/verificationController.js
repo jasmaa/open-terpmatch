@@ -21,20 +21,22 @@ async function verifyEmail(req, res) {
 
         if (check.valid) {
             await User.updateOne({ uid: req.user.uid }, { $set: { isEmailVerified: true } });
-            /*
-            req.userInfo.user.isEmailVerified = true;
+            res.redirect('/profile');
+        } else {
             res.render('profile', {
                 title: 'Profile',
                 user: req.userInfo.user,
-                successMessages: ['Sucessfully verified email!'],
+                errorMessages: ['Could not verify email'],
+                csrfToken: req.csrfToken(),
             });
-            */
-            res.redirect('/profile');
-        } else {
-            res.render('profile', { title: 'Profile', user: req.userInfo.user, errorMessages: ['Could not verify email'] });
         }
     } catch (e) {
-        res.render('profile', { title: 'Profile', user: req.userInfo.user, errorMessages: ['Could not verify email'] });
+        res.render('profile', {
+            title: 'Profile',
+            user: req.userInfo.user,
+            errorMessages: ['Could not verify email'],
+            csrfToken: req.csrfToken(),
+        });
     }
 }
 
@@ -56,10 +58,20 @@ async function verifyPhone(req, res) {
             await User.updateOne({ uid: req.user.uid }, { $set: { isPhoneVerified: true } });
             res.redirect('/profile');
         } else {
-            res.render('profile', { title: 'Profile', user: req.userInfo.user, errorMessages: ['Could not verify phone'] });
+            res.render('profile', {
+                title: 'Profile',
+                user: req.userInfo.user,
+                errorMessages: ['Could not verify phone'],
+                csrfToken: req.csrfToken(),
+            });
         }
     } catch (e) {
-        res.render('profile', { title: 'Profile', user: req.userInfo.user, errorMessages: ['Could not verify phone'] });
+        res.render('profile', {
+            title: 'Profile',
+            user: req.userInfo.user,
+            errorMessages: ['Could not verify phone'],
+            csrfToken: req.csrfToken(),
+        });
     }
 }
 
@@ -79,7 +91,12 @@ async function resendEmail(req, res) {
 
         res.redirect('/profile');
     } else {
-        res.render('profile', { title: 'Profile', user: req.userInfo.user, errorMessages: ['Could not resend code'] });
+        res.render('profile', {
+            title: 'Profile',
+            user: req.userInfo.user,
+            errorMessages: ['Could not resend code'],
+            csrfToken: req.csrfToken(),
+        });
     }
 }
 
@@ -99,7 +116,12 @@ async function resendPhone(req, res) {
 
         res.redirect('/profile');
     } else {
-        res.render('profile', { title: 'Profile', user: req.userInfo.user, errorMessages: ['Could not resend code'] });
+        res.render('profile', {
+            title: 'Profile',
+            user: req.userInfo.user,
+            errorMessages: ['Could not resend code'],
+            csrfToken: req.csrfToken(),
+        });
     }
 }
 

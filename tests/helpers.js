@@ -6,6 +6,7 @@
 function mockRequest(req) {
     req = req || {};
     req.logout = jest.fn().mockReturnValue(req);
+    req.csrfToken = jest.fn().mockReturnValue(req);
     return req;
 }
 

@@ -28,11 +28,13 @@ block content
                 else
                   p.mr-3 #{user.email}
                   form.my-3(action="/verifyEmail", method="GET")
+                    input(type="hidden", name="_csrf", value=csrfToken)
                     .form-group
                       input.form-control.mr-3(type='text' name='code' placeholder="Enter code" autocomplete="off")
                     .text-right
                       input.btn.btn-primary.mr-3(type='submit' value='Verify')
                   form.my-3(action="/resendEmail", method="GET")
+                    input(type="hidden", name="_csrf", value=csrfToken)
                     .text-right
                       input.btn.btn-primary.mr-3(type='submit' value='Resend Code')
               else
@@ -50,16 +52,19 @@ block content
                 else
                   p.mr-3 #{user.phone}
                   form.my-3(action="/verifyPhone", method="GET")
+                    input(type="hidden", name="_csrf", value=csrfToken)
                     .form-group
                       input.form-control.mr-3(type='text' name='code' placeholder="Enter code" autocomplete="off")
                     .text-right
                       input.btn.btn-primary.mr-3(type='submit' value='Verify')
                   form.my-3(action="/resendPhone", method="GET")
+                    input(type="hidden", name="_csrf", value=csrfToken)
                     .text-right
                       input.btn.btn-primary.mr-3(type='submit' value='Resend Code')
               else
                 em No phone provided
         
         form.my-3(action="/deleteProfile", method="POST", onsubmit="return confirm('Are you sure you want to delete your account?');")
+          input(type="hidden", name="_csrf", value=csrfToken)
           .text-right
             input.btn.btn-danger(type='submit' value='Delete Account')

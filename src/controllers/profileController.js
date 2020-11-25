@@ -15,7 +15,10 @@ async function createAccountGet(req, res) {
     if (req.user.hasAccount) {
         res.redirect('/');
     } else {
-        res.render('createAccount', { title: 'Create Account' });
+        res.render('createAccount', {
+            title: 'Create Account',
+            csrfToken: req.csrfToken(),
+        });
     }
 }
 
@@ -55,7 +58,11 @@ async function createAccountPost(req, res) {
 
             req.user.hasAccount = true;
         } catch (e) {
-            res.render('createAccount', { title: 'Create Account', errorMessages: [e.message] });
+            res.render('createAccount', {
+                title: 'Create Account',
+                errorMessages: [e.message],
+                csrfToken: req.csrfToken(),
+            });
             return;
         }
     }
@@ -74,6 +81,7 @@ async function profile(req, res) {
         title: 'Profile',
         user: req.userInfo.user,
         numCrushers: req.userInfo.numCrushers,
+        csrfToken: req.csrfToken(),
     });
 }
 
@@ -88,6 +96,7 @@ async function editProfileGet(req, res) {
         title: 'Edit Profile',
         user: req.userInfo.user,
         numCrushers: req.userInfo.numCrushers,
+        csrfToken: req.csrfToken(),
     });
 }
 
@@ -151,7 +160,12 @@ async function editProfilePost(req, res) {
         }
     } catch (e) {
         const user = await User.findOne({ uid: req.user.uid });
-        res.render('editProfile', { title: 'Edit Account', user, errorMessages: [e.message] });
+        res.render('editProfile', {
+            title: 'Edit Account',
+            user,
+            errorMessages: [e.message],
+            csrfToken: req.csrfToken(),
+        });
         return;
     }
 

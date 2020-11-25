@@ -6,9 +6,12 @@ require('dotenv').config();
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const csrf = require('csurf');
 const UMDCASStrategy = require('passport-umd-cas').Strategy;
 const mongoose = require('mongoose');
 const pluralize = require('pluralize');
+
 const { authorizeCAS, authorizeAccount, getUserInfo } = require('./middleware');
 const { hashProfile } = require('./utils');
 const authController = require('./controllers/authController');
@@ -61,6 +64,8 @@ app.use(require('express-session')({ secret: SECRET_KEY, resave: true, saveUnini
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(csrf({ cookie: true }));
 app.set('view engine', 'pug');
 app.locals = {
     pluralize,
@@ -117,6 +122,7 @@ app.get('/dashboard', authorizeCAS, authorizeAccount, getUserInfo, async (req, r
         title: 'Dashboard',
         user: req.userInfo.user,
         numCrushers: req.userInfo.numCrushers,
+        csrfToken: req.csrfToken(),
     });
 });
 
@@ -136,6 +142,7 @@ app.route('/settings')
             title: 'Settings',
             user: req.userInfo.user,
             numCrushers: req.userInfo.numCrushers,
+            csrfToken: req.csrfToken(),
         });
     })
     .post(authorizeCAS, authorizeAccount, getUserInfo, async (req, res) => {
@@ -157,6 +164,7 @@ app.route('/settings')
             user,
             numCrushers: req.userInfo.numCrushers,
             successMessages: ['Successfully updated settings!'],
+            csrfToken: req.csrfToken(),
         });
     });
 

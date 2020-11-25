@@ -5,6 +5,7 @@ block content
     .card-body
 
       form(action='/editProfile', method='POST')
+        input(type="hidden", name="_csrf", value=csrfToken)
         .form-group
           label Email (optional)
           input.form-control(type='email' name='email' value=user.email placeholder="user@example.com")

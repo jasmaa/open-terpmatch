@@ -40,6 +40,7 @@ async function addCrush(req, res) {
                 user: req.userInfo.user,
                 numCrushers: req.userInfo.numCrushers,
                 errorMessages: [e.message],
+                csrfToken: req.csrfToken(),
             });
             return;
         }
