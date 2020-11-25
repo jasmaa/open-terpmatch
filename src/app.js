@@ -95,8 +95,8 @@ app.post('/deleteCrush', authorizeCAS, authorizeAccount, crushController.deleteC
 // Verification routes
 app.get('/verifyEmail', authorizeCAS, authorizeAccount, getUserInfo, verificationController.verifyEmail);
 app.get('/verifyPhone', authorizeCAS, authorizeAccount, getUserInfo, verificationController.verifyPhone);
-app.get('/resendEmail', authorizeCAS, authorizeAccount, getUserInfo, verificationController.resendEmail);
-app.get('/resendPhone', authorizeCAS, authorizeAccount, getUserInfo, verificationController.resendPhone);
+app.post('/resendEmail', authorizeCAS, authorizeAccount, getUserInfo, verificationController.resendEmail);
+app.post('/resendPhone', authorizeCAS, authorizeAccount, getUserInfo, verificationController.resendPhone);
 
 // About
 app.get('/about', getUserInfo, (req, res) => {

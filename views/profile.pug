@@ -33,7 +33,7 @@ block content
                       input.form-control.mr-3(type='text' name='code' placeholder="Enter code" autocomplete="off")
                     .text-right
                       input.btn.btn-primary.mr-3(type='submit' value='Verify')
-                  form.my-3(action="/resendEmail", method="GET")
+                  form.my-3(action="/resendEmail", method="POST")
                     input(type="hidden", name="_csrf", value=csrfToken)
                     .text-right
                       input.btn.btn-primary.mr-3(type='submit' value='Resend Code')
@@ -57,7 +57,7 @@ block content
                       input.form-control.mr-3(type='text' name='code' placeholder="Enter code" autocomplete="off")
                     .text-right
                       input.btn.btn-primary.mr-3(type='submit' value='Verify')
-                  form.my-3(action="/resendPhone", method="GET")
+                  form.my-3(action="/resendPhone", method="POST")
                     input(type="hidden", name="_csrf", value=csrfToken)
                     .text-right
                       input.btn.btn-primary.mr-3(type='submit' value='Resend Code')
