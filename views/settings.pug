@@ -7,6 +7,7 @@ block content
       h1 Settings
 
       form.my-4(action='/settings', method='POST')
+        input(type="hidden", name="_csrf", value=csrfToken)
         .form-check
           input.form-check-input(type="checkbox" name="isEmailNotifyOn" checked=user.isEmailNotifyOn)
           label.form-check-label Notify via email

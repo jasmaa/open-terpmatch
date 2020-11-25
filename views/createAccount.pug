@@ -4,6 +4,7 @@ block content
   .card.my-5
     .card-body
       form(action="/createAccount", method="POST")
+        input(type="hidden", name="_csrf", value=csrfToken)
         .form-group
           label Name
           input.form-control(type="text", name="name", placeholder="Enter full name")

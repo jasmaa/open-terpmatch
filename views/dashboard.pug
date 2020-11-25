@@ -25,6 +25,7 @@ block content
       h3 Crushes
     
       form.d-flex.align-items-center.my-4(action="/addCrush", method="POST")
+        input(type="hidden", name="_csrf", value=csrfToken)
         input.form-control.mr-2(name="crushUID", placeholder="Enter crush's directory ID")
         button.btn.btn-sm.icon-btn(type='submit', value='+ Add Crush')
           i.fa.fa-plus
@@ -35,6 +36,7 @@ block content
             li.list-group-item.d-flex.justify-content-between.align-items-center
               span #{name}
               form(action="/deleteCrush", method="POST")
+                input(type="hidden", name="_csrf", value=csrfToken)
                 input(type="hidden", name="crushUID", value=name)
                 button.btn.btn-sm.icon-btn(type='submit')
                   i.fa.fa-minus
