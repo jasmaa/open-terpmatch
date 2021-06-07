@@ -70,6 +70,7 @@ app.set('view engine', 'pug');
 app.locals = {
     pluralize,
     hashProfile,
+    feedbackURL: process.env.FEEDBACK_URL,
 };
 
 // Auth routes
