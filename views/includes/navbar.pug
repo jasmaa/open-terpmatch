@@ -2,31 +2,36 @@ nav.navbar.navbar-expand-lg.navbar-dark
   
   a.navbar-brand(href="/") Open Terpmatch
 
-  ul.navbar-nav.mr-auto
-    li.nav-item
-      a.nav-link(href="/about") About
+  button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+    span.navbar-toggler-icon
+  
+  #navbarSupportedContent.collapse.navbar-collapse.justify-content-end
+    ul.navbar-nav.mr-auto
+      li.nav-item
+        a.nav-link(href="/about") About
+      
+      if feedbackURL
+        li.nav-item 
+          a.nav-link(href=feedbackURL, target="_blank") Feedback
     
-    if feedbackURL
-      li.nav-item 
-        a.nav-link(href=feedbackURL, target="_blank") Feedback
-
-  if user
-    if numCrushers > 0
-      .crush-counter.active.mx-2
-        i.fa.fa-heart.mr-2.pulse
-        span #{numCrushers}
-    else
-      .crush-counter.mx-2
-        i.fa.fa-heart.mr-2
-        span #{numCrushers}
-    
-    .dropdown
-      button.btn.dropdown-toggle(data-toggle="dropdown" style={'color': 'white'})
-        i.fa.fa-user
-      .dropdown-menu.dropdown-menu-right
-        a.dropdown-item(href="/profile") Profile
-        a.dropdown-item(href="/settings") Settings
-        .dropdown-divider
-        a.dropdown-item(href="/logout") Logout
-  else
-    a.btn.login-btn(href="/umd/login") Login
+    ul.navbar-nav.text-right
+      if user
+        if numCrushers > 0
+          .crush-counter.active.mx-2
+            i.fa.fa-heart.mr-2.pulse
+            span #{numCrushers}
+        else
+          .crush-counter.mx-2
+            i.fa.fa-heart.mr-2
+            span #{numCrushers}
+        
+        .dropdown
+          button.btn.dropdown-toggle(data-toggle="dropdown" style={'color': 'white'})
+            i.fa.fa-user
+          .dropdown-menu.dropdown-menu-right
+            a.dropdown-item(href="/profile") Profile
+            a.dropdown-item(href="/settings") Settings
+            .dropdown-divider
+            a.dropdown-item(href="/logout") Logout
+      else
+        a.btn.login-btn(href="/umd/login") Login
