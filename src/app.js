@@ -11,6 +11,8 @@ const csrf = require('csurf');
 const UMDCASStrategy = require('passport-umd-cas').Strategy;
 const mongoose = require('mongoose');
 const pluralize = require('pluralize');
+const pino = require('pino');
+const expressPino = require('express-pino-logger');
 
 const { authorizeCAS, authorizeAccount, getUserInfo } = require('./middleware');
 const { hashProfile } = require('./utils');
@@ -72,6 +74,11 @@ app.locals = {
     hashProfile,
     feedbackURL: process.env.FEEDBACK_URL,
 };
+
+// Logging
+const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
+const expressLogger = expressPino({ logger });
+app.use(expressLogger);
 
 // Auth routes
 app.get('/umd/login', passport.authenticate('umd-cas'));
@@ -169,4 +176,4 @@ app.route('/settings')
         });
     });
 
-module.exports = app;
+module.exports = { app, logger };
