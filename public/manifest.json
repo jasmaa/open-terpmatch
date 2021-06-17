@@ -1,0 +1,13 @@
+{
+    "name": "Open Terpmatch",
+    "short_name": "Open Terpmatch",
+    "background_color": "#fff",
+    "description": "Open-source anonymous UMD crushing",
+    "icons": [
+        {
+            "src": "/images/icon192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ]
+}
