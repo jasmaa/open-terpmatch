@@ -5,7 +5,6 @@ require('dotenv').config();
 
 const express = require('express');
 const passport = require('passport');
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const csrf = require('csurf');
 const UMDCASStrategy = require('passport-umd-cas').Strategy;
