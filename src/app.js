@@ -72,7 +72,9 @@ app.set('view engine', 'pug');
 app.locals = {
     pluralize,
     hashProfile,
-    feedbackURL: process.env.FEEDBACK_URL,
+    FEEDBACK_URL: process.env.FEEDBACK_URL,
+    TERMS_OF_SERVICE_URL: process.env.TERMS_OF_SERVICE_URL,
+    PRIVACY_POLICY_URL: process.env.PRIVACY_POLICY_URL,
 };
 
 // Logging

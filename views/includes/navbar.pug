@@ -10,9 +10,9 @@ nav.navbar.navbar-expand-lg.navbar-dark
       li.nav-item
         a.nav-link(href="/about") About
       
-      if feedbackURL
+      if FEEDBACK_URL
         li.nav-item 
-          a.nav-link(href=feedbackURL, target="_blank") Feedback
+          a.nav-link(href=FEEDBACK_URL, target="_blank") Feedback
     
     ul.navbar-nav.text-right
       if user
