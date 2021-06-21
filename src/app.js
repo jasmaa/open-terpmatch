@@ -5,7 +5,6 @@ require('dotenv').config();
 
 const express = require('express');
 const passport = require('passport');
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const csrf = require('csurf');
 const UMDCASStrategy = require('passport-umd-cas').Strategy;
@@ -65,7 +64,8 @@ app.use(require('express-session')({ secret: SECRET_KEY, resave: true, saveUnini
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(csrf({ cookie: true }));
 app.set('view engine', 'pug');
