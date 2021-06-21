@@ -9,7 +9,7 @@ Open-source anonymous UMD crushing
 
 ## What is this?
 Open Terpmatch is an open-source re-creation of Brandon Ferrell's original University of Maryland matching site,
-[Terpmatch](https://terpmatch.com). The main goal of the project is to keep Terpmatch as a platform accessible and open by
+Terpmatch. The main goal of the project is to keep Terpmatch as a platform accessible and open by
 allowing anyone in the future to re-deploy this site as well as contribute to its development.
 
 ## Setup
