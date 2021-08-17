@@ -4,11 +4,11 @@ body {
 }
 
 a {
-    color: #ffffff;
+    color: #ee5555;
 }
 
 a:hover {
-    color: #cccccc;
+    color: #cc3333;
 }
 
 nav.navbar {
@@ -153,15 +153,20 @@ nav.navbar {
     background-position: center;
 }
 
-.about-content>h1 {
+.about-content h2 {
     margin-top: 1.5em;
     margin-bottom: 0.5em;
 }
 
-.about-content>p {
-    line-height: 200%;
+.about-content p {
+    color: gray;
+    font-size: 1.2em;
     margin-left: 1em;
     margin-right: 1em;
+}
+
+.about-content strong {
+    color: white;
 }
 
 @keyframes fade-in-ani {
@@ -191,5 +196,9 @@ nav.navbar {
     bottom: 0;
     width: 100%;
     background-color: #333333;
+    color: white;
+}
+
+.footer a {
     color: white;
 }

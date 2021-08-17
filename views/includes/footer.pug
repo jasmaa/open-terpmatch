@@ -1,17 +1,21 @@
 .container-fluid.footer.p-5
   .row
-    .col-md-8
+    .col-md-8.mb-3
       h5 Open Terpmatch
-    .col-md-2
+      p Open-source University of Maryland matching.
+    .col-md-2.mb-3
+      h5 Legal
       if TERMS_OF_SERVICE_URL
         div
           a(href=TERMS_OF_SERVICE_URL) Terms of Service
-      
       if PRIVACY_POLICY_URL
         div
           a(href=PRIVACY_POLICY_URL) Privacy Policy
-    .col-md-2
+    .col-md-2.mb-3
+      h5 Links
       div
         a(href="/") Home
       div
-        a(href="/about") About    
+        a(href="/about") About
+      div
+        a(href="https://github.com/jasmaa/open-terpmatch") Source
